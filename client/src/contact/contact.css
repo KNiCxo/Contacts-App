@@ -1,0 +1,21 @@
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+}
+
+.list-link {
+  color: rgb(13, 124, 244);
+  display: contents;
+  font-size: 20px;
+}
+
+.add-contact {
+  width: 35px;
+  height: 35px;
+}
+
+h1 {
+  margin: 10px 15px;
+}

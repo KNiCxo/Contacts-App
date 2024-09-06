@@ -1,0 +1,11 @@
+/* Manrope Font */
+@font-face {
+  src: url(/public/fonts/Manrope-VariableFont_wght.ttf);
+  font-family: manrope;
+}
+
+body {
+  background-color: rgb(8, 8, 8);
+  color: white;
+  font-family: manrope;
+}
