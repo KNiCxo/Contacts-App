@@ -1,0 +1,50 @@
+.list-wrapper {
+  margin: 0 auto;
+  width: 95%;
+}
+
+.list-header-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 17px;
+  color: rgb(13, 124, 244);
+}
+
+.list-header-buttons span:hover {
+  cursor: pointer;
+}
+
+.list-header {
+  margin-top: 5px;
+}
+
+.list-icon {
+  width: 28px;
+  height: 28px;
+  margin: 0 12px;
+}
+
+.list-entry {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  height: 40px;
+  margin: 15px 0 30px 0;
+  background-color: rgb(29, 26, 26);
+  border-radius: 10px;
+}
+
+.list-entry:hover {
+  cursor: pointer;
+}
+
+.list-entry:active {
+  background-color: rgb(49, 44, 44);
+}
+
+.contact-count {
+  margin-left: auto;
+  padding-right: 20px;
+}
