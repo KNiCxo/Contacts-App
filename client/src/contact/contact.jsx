@@ -5,6 +5,17 @@ import './contact.css'
 import SearchBar from '../search-bar/search-bar.jsx';
 
 function Contact() {
+  const testInsert = async () => {
+    fetch('http://localhost:4001/insert', {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+    .then(res => res.json())
+    .then(data => console.log(data));
+  }
+
   return(
     <>
       <div className='contact-wrapper'>
@@ -13,7 +24,7 @@ function Contact() {
                 to='/lists'>
             Lists
           </Link>
-          <img className='add-contact' src="add.png" alt="" />
+          <img className='add-contact' onClick={testInsert} src="add.png" alt="" />
         </div>
 
         <h1 className='contact-header'>Contacts</h1>
