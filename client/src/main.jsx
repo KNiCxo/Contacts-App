@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     // Selected Contact page
-    path: '/:name',
+    path: '/:listName',
     element: <Contact></Contact>
   },
   {

@@ -19,9 +19,9 @@ app.post('/insert', (req, res) => {
   .catch(err => console.log(err));
 });
 
-app.get('/createDefault', (req, res) => {
+app.post('/createList/:name', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.createDefault();
+  const result = db.createList(req.params.name);
 
   result
   .then(data => res.json({data: data}))

@@ -1,10 +1,12 @@
-import {Link} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 
 import './contact.css'
 
 import SearchBar from '../search-bar/search-bar.jsx';
 
 function Contact() {
+  let {listName} = useParams();
+
   const testInsert = async () => {
     fetch('http://localhost:4001/insert', {
       headers: {
@@ -27,7 +29,7 @@ function Contact() {
           <img className='add-contact' onClick={testInsert} src="add.png" alt="" />
         </div>
 
-        <h1 className='contact-header'>Contacts</h1>
+        <h1 className='contact-header'>{listName}</h1>
 
         <SearchBar></SearchBar>
 

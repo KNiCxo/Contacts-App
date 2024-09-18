@@ -23,10 +23,10 @@ class DbService {
     return instance ? instance : new DbService();
   }
 
-  async createDefault() {
+  async createList(name) {
     try {
-      const friends = await new Promise((resolve, reject) => {
-        const query = `CREATE TABLE Friends (
+      const list = await new Promise((resolve, reject) => {
+        const query = `CREATE TABLE ${name} (
           ContactIs int AUTO_INCREMENT PRIMARY KEY,
           AviPath varchar(255),
           FirstName varchar(100),
@@ -43,11 +43,10 @@ class DbService {
           }
           resolve(results);
         });
-
       });
 
-      const friendsNumbers = await new Promise((resolve, reject) => {
-        const query = `CREATE TABLE FriendsNumbers (
+      const listNumbers = await new Promise((resolve, reject) => {
+        const query = `CREATE TABLE ${name}Numbers (
           ContactId int PRIMARY KEY,
           Number varchar(30)
         );`
@@ -58,11 +57,10 @@ class DbService {
           }
           resolve(results);
         });
-
       });
 
-      const friendsEmails = await new Promise((resolve, reject) => {
-        const query = `CREATE TABLE FriendsEmails (
+      const listEmails = await new Promise((resolve, reject) => {
+        const query = `CREATE TABLE ${name}Emails (
           ContactId int PRIMARY KEY,
           Email varchar(50)
         );`
@@ -73,10 +71,7 @@ class DbService {
           }
           resolve(results);
         });
-
       });
-
-      return response;
     } catch(error) {
       console.log(error);
     }
