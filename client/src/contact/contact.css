@@ -10,6 +10,33 @@
   padding: 10px 0;
 }
 
+.contact-header-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contact-header {
+  background-color: black;
+  border: none;
+  color: white;
+  font-family: manrope;
+  font-size: 40px;
+  width: 180px;
+  height: 40px;
+  padding: 4px;
+}
+
+.edit-button {
+  width: 30px;
+  height: 30px;
+  margin-right: 12px;
+}
+
+.edit-button:hover {
+  cursor: pointer;
+}
+
 .list-link {
   color: rgb(13, 124, 244);
   display: contents;
@@ -23,10 +50,6 @@
 
 .add-contact:hover {
   cursor: pointer;
-}
-
-h1 {
-  margin: 0;
 }
 
 .contacts {

@@ -25,6 +25,7 @@ class DbService {
 
   async createList(name) {
     try {
+      console.log('test');
       const list = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name} (
           ContactIs int AUTO_INCREMENT PRIMARY KEY,

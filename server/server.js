@@ -20,6 +20,7 @@ app.post('/insert', (req, res) => {
 });
 
 app.post('/createList/:name', (req, res) => {
+  console.log('test');
   const db = dbService.getDbServiceInstance();
   const result = db.createList(req.params.name);
 

@@ -9,7 +9,12 @@ function ContactList() {
   );
 
   const createList = async (name) => {
-    fetch(`http://localhost:4001/createList/${name}`);
+    fetch(`http://localhost:4001/createList/${name}`, {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      method: 'POST'
+    });
     const newContactLists = [...contactLists, {name: name, count: 0}];
     setContactLists(newContactLists);
     localStorage.setItem('contactLists', JSON.stringify(newContactLists));
@@ -17,7 +22,9 @@ function ContactList() {
 
   function enableEdits() {
     const removeButtons = document.getElementsByClassName('remove-button');
+
     for (let i = 0; i < removeButtons.length; i++) {
+      removeButtons[0].contentEditable = true;
       removeButtons[i].style.display = window.getComputedStyle(removeButtons[i]).display === 'none' ? 'flex' : 'none';
     }
   }
@@ -33,14 +40,14 @@ function ContactList() {
     return(
       <>
       {contactLists.map((list, index) => 
-        <Link className='entry-container' key={`${list}-${index}`} to={`/${list.name}`}>
-          <div className='entry'>
+        <div className='entry-container' key={`${list}-${index}`}>
+          <Link className='entry-link' to={`/${list.name}`}>
             <img className='entry-icon' src="audience.png" alt="" />
             <span className='entry-name'>{list.name}</span>
             <span className='entry-count'>{list.count}</span>
-          </div>
+          </Link>
           <img className='remove-button' onClick={() => deleteEntry(list.name, index)} src="remove.png" alt=""/>
-        </Link>
+        </div>
       )}
       </>
     );
@@ -49,7 +56,7 @@ function ContactList() {
   useEffect(() => {
     console.log(contactLists);
     if (contactLists.length == 0) {
-      createList('Friends');
+      createList('Contacts');
     }
   }, []);
 
@@ -62,16 +69,8 @@ function ContactList() {
           <span>Add List</span>
         </div>
 
-        <h1 className='list-header'>Lists</h1>
+        <h1 className='lists-header'>Lists</h1>
         {displayLists()}
-        <Link className='entry-container' to={`/Yuh`}>
-          <div className='entry'>
-            <img className='entry-icon' src="audience.png" alt="" />
-            <span className='entry-name'>Yuh</span>
-            <span className='entry-count'>20</span>
-          </div>
-          <img className='remove-button' src="remove.png" alt=""/>
-        </Link>
       </div>
     </>
   );
