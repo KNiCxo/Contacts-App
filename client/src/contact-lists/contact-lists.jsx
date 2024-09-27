@@ -10,11 +10,9 @@ function ContactList() {
 
   const createList = async (name) => {
     fetch(`http://localhost:4001/createList/${name}`, {
-      headers: {
-        'Content-type': 'application/json'
-      },
       method: 'POST'
     });
+    
     const newContactLists = [...contactLists, {name: name, count: 0}];
     setContactLists(newContactLists);
     localStorage.setItem('contactLists', JSON.stringify(newContactLists));

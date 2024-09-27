@@ -15,17 +15,6 @@ function Contact() {
   const [phoneSlots, setPhoneSlots] = useState([]);
   const [emailSlots, setEmailSlots] = useState([]);
 
-  const testInsert = async () => {
-    fetch('http://localhost:4001/insert', {
-      headers: {
-        'Content-type': 'application/json'
-      },
-      method: 'POST'
-    })
-    .then(res => res.json())
-    .then(data => console.log(data));
-  }
-
   function displayNewContact() {
     return(
       <>
@@ -33,7 +22,7 @@ function Contact() {
           <div className='new-contact-header'>
             <span className='new-contact-cancel' onClick={toggleNewContact}>Cancel</span>
             <span className='new-contact-title'>New Contact</span>
-            <span className='new-contact-done'>Done</span>
+            <span className='new-contact-done' onClick={addContact}>Done</span>
           </div>
 
           <div className='new-contact-pfp'>
@@ -140,6 +129,21 @@ function Contact() {
     profilePicture.src = URL.createObjectURL(realFileButton.files[0]);
   }
 
+  const addContact = async () => {
+    const fileInput = document.querySelector('.real-file-button');
+    const data = new FormData();
+    data.append('file', fileInput.files[0]);
+
+    if (fileInput.files[0] != undefined) {
+      fetch('http://localhost:4001/addContact', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(data => console.log(data));
+    }
+  }
+
   function enableEdit() {
     const header = document.querySelector('.contact-header');
 
@@ -159,9 +163,6 @@ function Contact() {
   useEffect(() => {
     if (contactLists.length == 0) {
       fetch('http://localhost:4001/createList/Contacts', {
-        headers: {
-          'Content-type': 'application/json'
-        },
         method: 'POST'
       });
 
