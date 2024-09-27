@@ -77,7 +77,7 @@ select {
 }
 
 .new-contact {
-  display: none;
+  display: flex;
   flex-direction: column;
   background-color: rgb(29, 26, 26);
   border-top-left-radius: 12px;
@@ -94,7 +94,7 @@ select {
   justify-content: space-around;
   font-size: 16px;
   font-weight: 400;
-  padding: 10px 10px 25px;
+  padding: 13px 10px 25px;
 }
 
 .new-contact-cancel, .new-contact-done, .new-contact-pfp span {
@@ -121,6 +121,11 @@ select {
   width: 140px;
   height: 140px;
   margin-bottom: 8px;
+  border-radius: 70px;
+}
+
+.new-contact-pfp input {
+  display: none;
 }
 
 .new-contact-pfp span {
