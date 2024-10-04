@@ -37,22 +37,32 @@ function Contact() {
 
           <div className='name-company-div'>
             <div className='new-contact-input-div'>
-              <input className='new-contact-input' type="text" placeholder='First name'/>
+              <input className='new-contact-input' id='first-name' type="text" placeholder='First name' maxlength="100"/>
             </div>
 
             <div className='new-contact-input-div'>
-              <input className='new-contact-input' type="text" placeholder='Last name'/>
+              <input className='new-contact-input' id='last-name' type="text" placeholder='Last name' maxlength="100"/>
             </div>
 
             <div className='new-contact-input-div'>
-              <input className='new-contact-input' type="text" placeholder='Company'/>
+              <input className='new-contact-input' id='company' type="text" placeholder='Company' maxlength="100"/>
+            </div>
+          </div>
+
+          <div className='birthday-address-div'>
+            <div className='new-contact-input-div'>
+              <input className='new-contact-input' id='birthday' type="date" />
+            </div>
+
+            <div className='new-contact-input-div'>
+              <input className='new-contact-input' id='address' type="text" placeholder='Address' maxlength="100"/>
             </div>
           </div>
 
           {phoneSlots.map((_, index) => {
             return(
               <>
-                <div className='new-contact-input-div' key={index}>
+                <div className='new-contact-input-div phone-slot'key={index}>
                   <img src="remove.png" className='remove-address' onClick={() => removePhoneSlots(index)} alt="" />
 
                   <select className='address-select' name="phone-select">
@@ -62,7 +72,7 @@ function Contact() {
                   </select>
 
                   <span className='select-arrow'>{`>`}</span>
-                  <input className='new-contact-input' id='phone' type="text" placeholder='Phone'/>
+                  <input className='new-contact-input' id='phone' type="text" placeholder='Phone' maxlength="100"/>
                 </div>
               </>
             );
@@ -75,9 +85,9 @@ function Contact() {
 
           {emailSlots.map((_, index) => {
             return(
-              <div className='new-contact-input-div' key={index}>
+              <div className='new-contact-input-div email-slot' key={index}>
                 <img src="remove.png" className='remove-address' onClick={() => removeEmailSlots(index)} alt="" />
-                <input className='new-contact-input' id='email' type="text" placeholder='Email'/>
+                <input className='new-contact-input' id='email' type="text" placeholder='Email' maxlength="100"/>
               </div>
             );
           })}
@@ -89,7 +99,7 @@ function Contact() {
 
           <div className='notes-div'>
             <span>Notes</span>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="" id="note" cols="30" rows="10" maxlength="1000"></textarea>
           </div>
         </div>
       </>
@@ -130,18 +140,70 @@ function Contact() {
   }
 
   const addContact = async () => {
+    //const fileName = await uploadPicture();
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const company = document.getElementById('company').value;
+    const birthday = document.getElementById('birthday').value;
+    const address = document.getElementById('address').value;
+
+    let phoneNumbers = [];
+    const phoneElements = document.getElementsByClassName('phone-slot');
+
+    Array.from(phoneElements).forEach(slot => {
+      phoneNumbers.push({
+        type: slot.children[1].value,
+        number: slot.children[3].value
+      });
+    });
+
+    let emails = [];
+    const emailElements = document.getElementsByClassName('email-slot');
+
+    Array.from(emailElements).forEach(slot => {
+      emails.push(slot.children[1].value)
+    });
+
+    const note = document.getElementById('note').value;
+
+    const contactInfo = {
+      listName: displayName,
+      fileName: 'test.jpg',
+      firstName: firstName,
+      lastName: lastName,
+      company: company,
+      birthday: birthday,
+      address: address,
+      phoneNumbers: phoneNumbers,
+      emails: emails,
+      note: note
+    }
+    
+    fetch('http://localhost:4001/addContact', {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(contactInfo)
+    });
+  }
+
+  const uploadPicture = async ()=> {
     const fileInput = document.querySelector('.real-file-button');
     const data = new FormData();
     data.append('file', fileInput.files[0]);
 
     if (fileInput.files[0] != undefined) {
-      fetch('http://localhost:4001/addContact', {
+      const res = await fetch('http://localhost:4001/uploadPicture', {
         method: 'POST',
         body: data
-      })
-      .then(res => res.json())
-      .then(data => console.log(data));
+      });
+
+      const json = await res.json();
+      return json.filename;
     }
+    
+    return 'profile-picture.png';
   }
 
   function enableEdit() {

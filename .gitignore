@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
+client/public/uploads
 server/.env
 server/node_modules

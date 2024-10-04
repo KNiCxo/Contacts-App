@@ -27,8 +27,13 @@ app.post('/createList/:name', (req, res) => {
   const result = db.createList(req.params.name);
 });
 
-app.post('/addContact', upload.single('file'), (req, res) => {
+app.post('/uploadPicture', upload.single('file'), (req, res) => {
   res.json(req.file);
+});
+
+app.post('/addContact', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  const result = db.addContact(req.body);
 });
 
 app.listen(process.env.PORT, () => console.log(`listening on port ${process.env.PORT}`));

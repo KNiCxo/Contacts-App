@@ -27,15 +27,15 @@ class DbService {
     try {
       const list = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name} (
-          ContactId int AUTO_INCREMENT PRIMARY KEY,
-          AviPath varchar(255),
-          FirstName varchar(100),
-          LastName varchar(100),
-          Company varchar(100),
-          Birthday date,
-          Address varchar(100),
-          Note varchar(1000)
-        );`
+                       ContactId INT AUTO_INCREMENT PRIMARY KEY,
+                       AviPath VARCHAR(255),
+                       FirstName VARCHAR(100),
+                       LastName VARCHAR(100),
+                       Company VARCHAR(100),
+                       Birthday DATE,
+                       Address VARCHAR(100),
+                       Note VARCHAR(1000)
+                      );`;
 
         connection.query(query, (err, results) => {
           if (err) {
@@ -47,9 +47,11 @@ class DbService {
 
       const listNumbers = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name}Numbers (
-          ContactId int PRIMARY KEY,
-          Number varchar(30)
-        );`
+                       NumberId INT AUTO_INCREMENT PRIMARY KEY,
+                       ContactId INT,
+                       Type VARCHAR(6),
+                       Number VARCHAR(100)
+                      );`;
 
         connection.query(query, (err, results) => {
           if (err) {
@@ -61,9 +63,10 @@ class DbService {
 
       const listEmails = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name}Emails (
-          ContactId int PRIMARY KEY,
-          Email varchar(50)
-        );`
+                       EmailId INT AUTO_INCREMENT PRIMARY KEY,
+                       ContactId INT,
+                       Email VARCHAR(100)
+                      );`;
 
         connection.query(query, (err, results) => {
           if (err) {
@@ -72,7 +75,59 @@ class DbService {
           resolve(results);
         });
       });
-    } catch(error) {
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async addContact(contactInfo) {
+    try {
+      const defaultRow = await new Promise((resolve, reject) => {
+        const query = `INSERT INTO ${contactInfo.listName}
+                       (AviPath, FirstName, LastName, Company, Birthday, Address, Note)
+                       VALUES (?, ?, ?, ?, ?, ?, ?);`;
+        
+        connection.query(query, 
+          [contactInfo.fileName, contactInfo.firstName, contactInfo.lastName, contactInfo.company,
+           contactInfo.birthday, contactInfo.address, contactInfo.note],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+      
+      const insertId = defaultRow.insertId;
+
+      const phoneNumberRows = contactInfo.phoneNumbers.map(async (number) => {
+        return new Promise((resolve, reject) => {
+          const query = `INSERT INTO ${contactInfo.listName}Numbers
+                          (ContactId, Type, Number)
+                          VALUES (?, ?, ?);`;
+          
+          connection.query(query, [insertId, number.type, number.number], (err, result) => {
+              if (err) reject(new Error(err.message));
+              resolve(result);
+          });
+        });
+      });
+
+      await Promise.all(phoneNumberRows);
+
+      const emailRows = contactInfo.emails.map(async (email) => {
+        return new Promise((resolve, reject) => {
+          const query = `INSERT INTO ${contactInfo.listName}Emails
+                          (ContactId, Email)
+                          VALUES (?, ?);`;
+          
+          connection.query(query, [insertId, email], (err, result) => {
+              if (err) reject(new Error(err.message));
+              resolve(result);
+          });
+        });
+      });
+
+      await Promise.all(phoneNumberRows);
+    } catch (error) {
       console.log(error);
     }
   }

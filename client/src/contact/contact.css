@@ -136,6 +136,10 @@ select {
   margin-bottom: 40px;
 }
 
+.birthday-address-div {
+  margin-bottom: 40px;
+}
+
 .new-contact-input-div {
   display: flex;
   flex-direction: row;
@@ -158,6 +162,10 @@ select {
 
 .new-contact-input-div:last-child .new-contact-input {
   border: none;
+}
+
+#birthday {
+  padding-right: 10px;
 }
 
 #email, #phone {
