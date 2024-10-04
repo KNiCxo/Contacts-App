@@ -1,8 +1,14 @@
+// Get required modules for SQL
 const mysql = require('mysql');
 const dotenv = require('dotenv');
-let instance = null;
+
+// Enable dotenv
 dotenv.config();
 
+// Create instance for MySQL
+let instance = null;
+
+// Create connection object
 const connection = mysql.createConnection({
   host: process.env.HOST,
   user: process.env.USERNAME,
@@ -11,6 +17,7 @@ const connection = mysql.createConnection({
   port: process.env.DB_PORT
 });
 
+// Connect to database
 connection.connect((err) => {
   if (err) {
     console.log(err.message);
@@ -18,13 +25,17 @@ connection.connect((err) => {
   console.log('db ' + connection.state);
 });
 
+
+// SQL query functions
 class DbService {
   static getDbServiceInstance() {
     return instance ? instance : new DbService();
   }
 
+  // Creates tables based on name that was given
   async createList(name) {
     try {
+      // Creates main table
       const list = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name} (
                        ContactId INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,6 +56,7 @@ class DbService {
         });
       });
 
+      // Creates table for phone numbers
       const listNumbers = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name}Numbers (
                        NumberId INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,6 +73,7 @@ class DbService {
         });
       });
 
+      // Creates table for email
       const listEmails = await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ${name}Emails (
                        EmailId INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,8 +93,10 @@ class DbService {
     }
   }
 
+  // Adds contact information to proper tables
   async addContact(contactInfo) {
     try {
+      // Adds primary information to main table
       const defaultRow = await new Promise((resolve, reject) => {
         const query = `INSERT INTO ${contactInfo.listName}
                        (AviPath, FirstName, LastName, Company, Birthday, Address, Note)
@@ -96,8 +111,10 @@ class DbService {
           });
       });
       
+      // Get primary key from main table entry for use in phone and email tables
       const insertId = defaultRow.insertId;
 
+      // Iterates through phone number objects and adds to phone number table
       const phoneNumberRows = contactInfo.phoneNumbers.map(async (number) => {
         return new Promise((resolve, reject) => {
           const query = `INSERT INTO ${contactInfo.listName}Numbers
@@ -111,8 +128,10 @@ class DbService {
         });
       });
 
+      // Waits for all rows to be added before continuing
       await Promise.all(phoneNumberRows);
 
+      // Iterates through email objects and adds to email table
       const emailRows = contactInfo.emails.map(async (email) => {
         return new Promise((resolve, reject) => {
           const query = `INSERT INTO ${contactInfo.listName}Emails
@@ -126,29 +145,8 @@ class DbService {
         });
       });
 
+      // Waits for all rows to be added before continuing
       await Promise.all(phoneNumberRows);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async insertNewName() {
-    try {
-      const testObj = JSON.stringify({
-        name: 'nick',
-        name2: 'caliwag'
-      });
-
-      const insertId = await new Promise((resolve, reject) => {
-        const query = 'INSERT INTO Friends (LastName, FirstName, Address, City) VALUES (?, ?, ?, ?);';
-
-        connection.query(query, [testObj, '1', '1', '1'], (err, result) => {
-          if (err) reject(new Error(err.message));
-          resolve(result);
-        });
-      }); 
-
-      return;
     } catch (error) {
       console.log(error);
     }

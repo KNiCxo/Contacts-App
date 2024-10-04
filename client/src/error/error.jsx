@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 
 import './error.css';
 
+// Page that notifies the user that they have entered an invalid URL list parameter
 function Error() {
   return(
     <>

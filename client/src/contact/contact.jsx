@@ -3,28 +3,41 @@ import {useParams, Link, useNavigate} from 'react-router-dom';
 
 import './contact.css'
 
+// Import search bar component
 import SearchBar from '../search-bar/search-bar.jsx';
 
+// Displays all contacts in the specified list and allows for the creation/editing of contacts
 function Contact() {
+  // Enable navigation hook
   let navigate = useNavigate();
 
+  // Gather contact lists from local storage or set as an empty array
   let contactLists = JSON.parse(localStorage.getItem('contactLists')) || [];
+
+  // Get name of list from URL parameter
   let {listName} = useParams();
+
+  // Set the display name of the list from listName
   const [displayName, setDisplayName] = useState(listName);
 
+  // Create empty arrays for the new contact phone/email slots
   const [phoneSlots, setPhoneSlots] = useState([]);
   const [emailSlots, setEmailSlots] = useState([]);
 
+  // Creates new contact form */
   function displayNewContact() {
     return(
       <>
+        {/* HTML for new contact form */}
         <div className='new-contact'>
+          {/* Form header */}
           <div className='new-contact-header'>
             <span className='new-contact-cancel' onClick={toggleNewContact}>Cancel</span>
             <span className='new-contact-title'>New Contact</span>
             <span className='new-contact-done' onClick={addContact}>Done</span>
           </div>
 
+          {/* Contact picture section */}
           <div className='new-contact-pfp'>
             <img id='profile-picture' src="profile-picture.png" alt="" />
             <input className='real-file-button' 
@@ -35,33 +48,42 @@ function Contact() {
             <span onClick={activateFileButton}>Add Photo</span>
           </div>
 
+          {/* Input section for name and company */}
           <div className='name-company-div'>
+            {/* First name */}
             <div className='new-contact-input-div'>
               <input className='new-contact-input' id='first-name' type="text" placeholder='First name' maxlength="100"/>
             </div>
 
+            {/* Last name */}
             <div className='new-contact-input-div'>
               <input className='new-contact-input' id='last-name' type="text" placeholder='Last name' maxlength="100"/>
             </div>
 
+            {/* Company */}
             <div className='new-contact-input-div'>
               <input className='new-contact-input' id='company' type="text" placeholder='Company' maxlength="100"/>
             </div>
           </div>
 
+          {/* Input section for birthday and home address */}
           <div className='birthday-address-div'>
+            {/* Birthday */}
             <div className='new-contact-input-div'>
               <input className='new-contact-input' id='birthday' type="date" />
             </div>
 
+            {/* Home address */}
             <div className='new-contact-input-div'>
               <input className='new-contact-input' id='address' type="text" placeholder='Address' maxlength="100"/>
             </div>
           </div>
 
+          {/* Iterate through phoneSlots array to display all phone input fields */}
           {phoneSlots.map((_, index) => {
             return(
               <>
+                {/* HTML for phone slot */}
                 <div className='new-contact-input-div phone-slot'key={index}>
                   <img src="remove.png" className='remove-address' onClick={() => removePhoneSlots(index)} alt="" />
 
@@ -78,13 +100,16 @@ function Contact() {
             );
           })}
 
+          {/* Label that lets the user create new phone slots */}
           <div className='address-div'>
             <img src="add-2.png" className='add-address' onClick={addPhoneSlots} alt="" />
-            <span className='new-contact-label'> add phone</span>
+            <span className='new-contact-label'>add phone</span>
           </div>
 
+          {/* Iterate through emailSlots array to display all email input fields */}
           {emailSlots.map((_, index) => {
             return(
+              // HTML for email slot
               <div className='new-contact-input-div email-slot' key={index}>
                 <img src="remove.png" className='remove-address' onClick={() => removeEmailSlots(index)} alt="" />
                 <input className='new-contact-input' id='email' type="text" placeholder='Email' maxlength="100"/>
@@ -92,11 +117,13 @@ function Contact() {
             );
           })}
           
+          {/* Label that lets the user create new email slots */}
           <div className='address-div'>
             <img src="add-2.png" className='add-address' onClick={addEmailSlots} alt="" />
             <span className='new-contact-label'> add email</span>
           </div>
 
+          {/* Input section for notes */}
           <div className='notes-div'>
             <span>Notes</span>
             <textarea name="" id="note" cols="30" rows="10" maxlength="1000"></textarea>
@@ -106,32 +133,39 @@ function Contact() {
     );
   }
 
+  // Adds an additional element to the phoneSlots array
   function addPhoneSlots() {
     setPhoneSlots(prevSlots => [...prevSlots, {}]);
   }
 
+  // Removes one element from phoneSlots array
   function removePhoneSlots(index) {
     setPhoneSlots(prevSlots => prevSlots.filter((_, i) => i != index));
   }
 
+  // Adds an additional element to the emailSlots array
   function addEmailSlots() {
     setEmailSlots(prevSlots => [...prevSlots, {}]);
   }
 
+  // Removes one element from emailSlots array
   function removeEmailSlots(index) {
     setEmailSlots(prevSlots => prevSlots.filter((_, i) => i != index));
   }
 
+  // Displays or hides new contact form */
   function toggleNewContact() {
     const newContact = document.querySelector('.new-contact');
     newContact.style.display = newContact.style.display === 'flex' ? 'none' : 'flex';
   }
 
+  // Clicks on the real but hidden file button to allow user to upload a contact picture
   function activateFileButton() {
     const realFileButton  = document.querySelector('.real-file-button');
     realFileButton.click();
   }
 
+  // Displays contact picture in the new contact form
   function displayPicture() {
     const profilePicture = document.getElementById('profile-picture');
     const realFileButton  = document.querySelector('.real-file-button');
@@ -139,6 +173,7 @@ function Contact() {
     profilePicture.src = URL.createObjectURL(realFileButton.files[0]);
   }
 
+  // Gathers all information from the new contact form and sends a POST request to the server
   const addContact = async () => {
     //const fileName = await uploadPicture();
     const firstName = document.getElementById('first-name').value;
@@ -146,10 +181,15 @@ function Contact() {
     const company = document.getElementById('company').value;
     const birthday = document.getElementById('birthday').value;
     const address = document.getElementById('address').value;
-
     let phoneNumbers = [];
-    const phoneElements = document.getElementsByClassName('phone-slot');
+    let emails = [];
+    const note = document.getElementById('note').value;
 
+    // Get all phone elements and email elements and store as HTML objects
+    const phoneElements = document.getElementsByClassName('phone-slot');
+    const emailElements = document.getElementsByClassName('email-slot');
+
+    // Loop through elements and gather the phone type and number and push into the phoneNumbers array
     Array.from(phoneElements).forEach(slot => {
       phoneNumbers.push({
         type: slot.children[1].value,
@@ -157,15 +197,12 @@ function Contact() {
       });
     });
 
-    let emails = [];
-    const emailElements = document.getElementsByClassName('email-slot');
-
+    // Loop through elements and add emails to array
     Array.from(emailElements).forEach(slot => {
       emails.push(slot.children[1].value)
     });
 
-    const note = document.getElementById('note').value;
-
+    // Combine all info into an object
     const contactInfo = {
       listName: displayName,
       fileName: 'test.jpg',
@@ -179,6 +216,7 @@ function Contact() {
       note: note
     }
     
+    // Make POST request
     fetch('http://localhost:4001/addContact', {
       headers: {
         'Content-type': 'application/json'
@@ -188,25 +226,33 @@ function Contact() {
     });
   }
 
+  // Makes POST request to server that uploads contact pictures
   const uploadPicture = async ()=> {
+    // Get real file input element
     const fileInput = document.querySelector('.real-file-button');
+
+    // Create form data and add file
     const data = new FormData();
     data.append('file', fileInput.files[0]);
 
+    // Make POST request only if a file was selected
     if (fileInput.files[0] != undefined) {
       const res = await fetch('http://localhost:4001/uploadPicture', {
         method: 'POST',
         body: data
       });
-
+      
+      // Return file name for database entry
       const json = await res.json();
       return json.filename;
     }
     
+    // Return name of default picture if no file was uploaded
     return 'profile-picture.png';
   }
 
-  function enableEdit() {
+  // Enables/disables editing for page header
+  function toggleEdit() {
     const header = document.querySelector('.contact-header');
 
     if (header.contentEditable === 'true') {
@@ -223,11 +269,14 @@ function Contact() {
   }
 
   useEffect(() => {
+    // If a contact list doesn't exist, make a POST request to the server to create one and update local storage
+    // Else if URL doesn't have a param, use first contact lists in array
+    // Else if URL param does not exist in contact lists, then navigate to error page
     if (contactLists.length == 0) {
       fetch('http://localhost:4001/createList/Contacts', {
         method: 'POST'
       });
-
+      
       localStorage.setItem('contactLists', JSON.stringify([{name: 'Contacts', count: 0}]));
       setDisplayName('Contacts');
     } else if (displayName === undefined) {
@@ -240,8 +289,10 @@ function Contact() {
   return(
     <>
       <div className='contact-wrapper'>
+        {/* Display new contact form (hidden by default) */}
         {displayNewContact()}
 
+        {/* Header buttons */}
         <div className='contact-header-buttons'>
           <Link className='list-link'
                 to='/lists'>
@@ -250,15 +301,18 @@ function Contact() {
           <img className='add-contact' onClick={toggleNewContact} src="add.png" alt="" />
         </div>
 
+        {/* Header */}
         <div className='contact-header-div'>
-          <img className='edit-button' onClick={enableEdit} src="edit.png" alt="" />
+          <img className='edit-button' onClick={toggleEdit} src="edit.png" alt="" />
           <input className='contact-header' defaultValue={displayName} type="text" />
         </div>
 
+        {/* Search bar component */}
         <SearchBar></SearchBar>
 
+        {/* Contact entries */}
         <div className='contacts'>
-          <span className='alphabet-category'>A</span>
+          <span className='alphabet-header'>A</span>
           <span className='contact-entry'>Mike Acosta</span>
           <span className='contact-entry'>Adam Alagil</span>
           <span className='contact-entry'>Alexander</span>

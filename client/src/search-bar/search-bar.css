@@ -1,3 +1,4 @@
+/* Styling for page container */
 .search-container {
   display: flex;
   align-items: center;
@@ -8,6 +9,7 @@
   border-radius: 8px;
 }
 
+/* Styling for search icon img */
 .search-icon {
   width: 20px;
   height: 20px;
@@ -16,6 +18,7 @@
   top: 1px;
 }
 
+/* Styling for the input field */
 .search-field {
   background-color: rgba(0, 0, 0, 0);
   border: none;

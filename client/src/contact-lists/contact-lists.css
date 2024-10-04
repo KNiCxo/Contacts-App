@@ -1,8 +1,10 @@
+/* Page wrapper */
 .lists-wrapper {
   margin: 0 auto;
   width: 95%;
 }
 
+/* Styling for header buttons */
 .lists-header-buttons {
   display: flex;
   justify-content: space-between;
@@ -15,6 +17,7 @@
   cursor: pointer;
 }
 
+/* Styling for list entry div */
 .entry-container {
   display: flex;
   flex-direction: row;
@@ -22,6 +25,7 @@
   margin-bottom: 10px;
 }
 
+/* Styling for list entry link */
 .entry-link {
   display: flex;
   flex-direction: row;
@@ -35,25 +39,30 @@
   border-radius: 10px;
 }
 
+/* Changes cursor when hovered over the entry */
 .entry:hover {
   cursor: pointer;
 }
 
+/* Changes entry color when clicked */
 .entry:active {
   background-color: rgb(49, 44, 44);
 }
 
+/* Styling for entry img */
 .entry-icon {
   width: 28px;
   height: 28px;
   margin: 0 12px;
 }
 
+/* Styling for entry contact count */
 .entry-count {
   margin-left: auto;
   padding-right: 20px;
 }
 
+/* Styling for entry remove button */
 .remove-button {
   display: none;
   width: 30px;

@@ -3,11 +3,16 @@ import {Link} from 'react-router-dom';
 
 import './contact-lists.css';
 
+// Displays and allows the user to navigate to contact lists that
+// they have created and allows them to create/remove lists
 function ContactList() {
+  // Get contact lists from local storage or set to empty array
   const [contactLists, setContactLists] = useState(
     JSON.parse(localStorage.getItem('contactLists')) ? JSON.parse(localStorage.getItem('contactLists')) : []
   );
 
+  // Sends a POST request to the server to create a new list in the database
+  // and updates contact lists (including local storage reference)
   const createList = async (name) => {
     fetch(`http://localhost:4001/createList/${name}`, {
       method: 'POST'
@@ -18,7 +23,8 @@ function ContactList() {
     localStorage.setItem('contactLists', JSON.stringify(newContactLists));
   }
 
-  function enableEdits() {
+  // Enable/disables editing of list entries
+  function toggleEdits() {
     const removeButtons = document.getElementsByClassName('remove-button');
 
     for (let i = 0; i < removeButtons.length; i++) {
@@ -27,6 +33,7 @@ function ContactList() {
     }
   }
  
+  // Deletes selected list entry
   function deleteEntry(name, index) {
     if (confirm(`Are you sure you want to delete ${name}?`) == true) {
       const newContactLists = contactLists.filter((_, i) => index != i);
@@ -34,6 +41,7 @@ function ContactList() {
     }
   }
 
+  // Display lists created by the user
   function displayLists() {
     return(
       <>
@@ -51,8 +59,8 @@ function ContactList() {
     );
   }
 
+  // If there are no lists, then create a default one
   useEffect(() => {
-    console.log(contactLists);
     if (contactLists.length == 0) {
       createList('Contacts');
     }
@@ -62,12 +70,16 @@ function ContactList() {
   return(
     <>
       <div className='lists-wrapper'>
+        {/* Header buttons */}
         <div className='lists-header-buttons'>
-          <span onClick={enableEdits}>Edit</span>
+          <span onClick={toggleEdits}>Edit</span>
           <span>Add List</span>
         </div>
 
+        {/* Header */}
         <h1 className='lists-header'>Lists</h1>
+
+        {/* List entries */}
         {displayLists()}
       </div>
     </>

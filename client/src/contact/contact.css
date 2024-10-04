@@ -1,13 +1,16 @@
+/* Hides drop down arrow from select menu */
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
+/* Wrapper for page */
 .contact-wrapper {
   margin: 0 auto;
   width: 95%;
 }
 
+/* Styling for header buttons div */
 .contact-header-buttons {
   display: flex;
   justify-content: space-between;
@@ -15,6 +18,7 @@ select {
   padding: 10px 0;
 }
 
+/* Styling for header div */
 .contact-header-div {
   display: flex;
   flex-direction: row;
@@ -22,6 +26,7 @@ select {
   font-size: 20px;
 }
 
+/* Styling for header */
 .contact-header {
   background-color: black;
   border: none;
@@ -34,6 +39,7 @@ select {
   padding: 4px;
 }
 
+/* Styling for header edit button */
 .edit-button {
   width: 30px;
   height: 30px;
@@ -44,12 +50,14 @@ select {
   cursor: pointer;
 }
 
+/* Styling for list page link */
 .list-link {
   color: rgb(13, 124, 244);
   display: contents;
   font-size: 20px;
 }
 
+/* Styling for "add contact" button */
 .add-contact {
   width: 35px;
   height: 35px;
@@ -59,23 +67,27 @@ select {
   cursor: pointer;
 }
 
+/* Styling for contact entry div */
 .contacts {
   display: flex;
   flex-direction: column;
 }
 
-.alphabet-category {
+/* Styling for contact alphabet header */
+.alphabet-header {
   font-weight: 600;
   padding-bottom: 2px;
   color: rgb(137, 137, 137);
   border-bottom: solid rgba(93, 90, 90, 0.66) 0.5px;
 }
 
+/* Styling for each contact entry */
 .contact-entry {
   padding: 8px 0;
   border-bottom: solid rgb(93, 90, 90, 0.66) 0.5px;
 }
 
+/* Styling for new contact container */
 .new-contact {
   display: flex;
   flex-direction: column;
@@ -89,6 +101,7 @@ select {
   margin: 15px auto 0 auto;
 }
 
+/* Styling for new contact header div */
 .new-contact-header {
   display: flex;
   justify-content: space-around;
@@ -97,6 +110,7 @@ select {
   padding: 13px 10px 25px;
 }
 
+/* Styling for new contact header buttons */
 .new-contact-cancel, .new-contact-done, .new-contact-pfp span {
   color: rgb(13, 124, 244);
 }
@@ -105,11 +119,13 @@ select {
   cursor: pointer;
 }
 
+/* Styling for new contact header */
 .new-contact-title {
   margin: 0 50px;
   font-weight: 600;
 }
 
+/* Styling for new contact profile picture div */
 .new-contact-pfp {
   display: flex;
   flex-direction: column;
@@ -117,6 +133,7 @@ select {
   margin-bottom: 15px;
 }
 
+/* Styling for new contact profile picture */
 .new-contact-pfp img {
   width: 140px;
   height: 140px;
@@ -124,22 +141,27 @@ select {
   border-radius: 70px;
 }
 
+/* Styling for new contact real file input */
 .new-contact-pfp input {
   display: none;
 }
 
+/* Styling for "add photo" button */
 .new-contact-pfp span {
   font-size: 15px;
 }
 
+/* Styling for name/company div */
 .name-company-div {
   margin-bottom: 40px;
 }
 
+/* Styling for birthday/address div */
 .birthday-address-div {
   margin-bottom: 40px;
 }
 
+/* Styling for new contact input field containers */
 .new-contact-input-div {
   display: flex;
   flex-direction: row;
@@ -148,6 +170,7 @@ select {
   background-color: rgb(49, 46, 42);
 }
 
+/* Styling for new contact input fields */
 .new-contact-input {
   width: 96.5%;
   background-color: rgb(49, 46, 42);
@@ -160,14 +183,17 @@ select {
   padding: 13px 0;
 }
 
+/* Removes bottom border from company input field */
 .new-contact-input-div:last-child .new-contact-input {
   border: none;
 }
 
+/* Styling for birthday input field */
 #birthday {
   padding-right: 10px;
 }
 
+/* Styling for email/phone number input fields */
 #email, #phone {
   color: rgb(13, 124, 244);
 }
@@ -176,6 +202,7 @@ select {
   color: rgb(239, 237, 237);
 }
 
+/* Styling for "add phone"/"add email" divs */
 .address-div {
   display: flex;
   flex-direction: row;
@@ -185,6 +212,7 @@ select {
   margin-bottom: 40px;
 }
 
+/* Styling for "add address" img */
 .add-address {
   width: 27px;
   height: 27px;
@@ -195,10 +223,12 @@ select {
   cursor: pointer;
 }
 
+/* Styling for "add phone"/"add email" labels */
 .new-contact-label {
   font-size: 16px;
 }
 
+/* Styling for "remove address" img */
 .remove-address {
   width: 22.5px;
   height: 22.5px;
@@ -210,6 +240,7 @@ select {
    cursor: pointer;
 }
 
+/* Styling for phone number type select element */
 .address-select {
   margin-left: -5px;
   border: none;
@@ -223,23 +254,27 @@ select {
   cursor: pointer;
 }
 
+/* Styling for arrow next to select element */
 .select-arrow {
   font-size: 24px;
   color: rgb(104, 102, 102);
 }
 
+/* Styling for notes div */
 .notes-div {
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
 }
 
+/* Styling for notes header */
 .notes-div span {
   background-color: rgb(49, 46, 42);
   padding: 12px 12px 2px;
   font-size: 14px;
 }
 
+/* Styling for notes textarea */
 .notes-div textarea {
   font-family: manrope;
   line-height: 35px;

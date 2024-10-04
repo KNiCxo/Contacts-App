@@ -4,6 +4,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import './index.css';
 
+// Import pages
 import Contact from './contact/contact.jsx';
 import ContactLists from './contact-lists/contact-lists.jsx';
 import Error from './Error/error.jsx';

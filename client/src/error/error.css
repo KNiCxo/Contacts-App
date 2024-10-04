@@ -1,12 +1,15 @@
+/* Centers page content */
 .error-div {
   text-align: center;
   margin-top: 200px;
 }
 
+/* Styling for page label */
 .error-label {
   color: rgb(163, 9, 9);
 }
 
+/* Styling for link that directs to home page */
 .home-link {
   color: rgb(29, 112, 189);
   font-size: 20px;
