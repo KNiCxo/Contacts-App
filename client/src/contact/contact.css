@@ -58,12 +58,12 @@ select {
 }
 
 /* Styling for "add contact" button */
-.add-contact {
+.add-contact-img {
   width: 35px;
   height: 35px;
 }
 
-.add-contact:hover {
+.add-contact-img:hover {
   cursor: pointer;
 }
 
@@ -83,13 +83,21 @@ select {
 
 /* Styling for each contact entry */
 .contact-entry {
-  padding: 8px 0;
+  padding: 8px;
   border-bottom: solid rgb(93, 90, 90, 0.66) 0.5px;
 }
 
-/* Styling for new contact container */
-.new-contact {
-  display: flex;
+.contact-entry:hover {
+  cursor: pointer;
+}
+
+.contact-entry:active {
+  background-color: rgb(49, 44, 44);
+}
+
+/* Styling for add contact container */
+.add-contact {
+  display: none;
   flex-direction: column;
   background-color: rgb(29, 26, 26);
   border-top-left-radius: 12px;
@@ -101,8 +109,8 @@ select {
   margin: 15px auto 0 auto;
 }
 
-/* Styling for new contact header div */
-.new-contact-header {
+/* Styling for add contact header div */
+.add-contact-header {
   display: flex;
   justify-content: space-around;
   font-size: 16px;
@@ -110,44 +118,44 @@ select {
   padding: 13px 10px 25px;
 }
 
-/* Styling for new contact header buttons */
-.new-contact-cancel, .new-contact-done, .new-contact-pfp span {
+/* Styling for add/current contact header buttons */
+.add-contact-cancel, .add-contact-done, .add-contact-pfp span {
   color: rgb(13, 124, 244);
 }
 
-.new-contact-cancel:hover, .new-contact-done:hover, .new-contact-pfp span:hover {
+.add-contact-cancel:hover, .add-contact-done:hover, .add-contact-pfp span:hover {
   cursor: pointer;
 }
 
-/* Styling for new contact header */
-.new-contact-title {
+/* Styling for add contact header */
+.add-contact-title {
   margin: 0 50px;
   font-weight: 600;
 }
 
-/* Styling for new contact profile picture div */
-.new-contact-pfp {
+/* Styling for add contact profile picture div */
+.add-contact-pfp {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 15px;
 }
 
-/* Styling for new contact profile picture */
-.new-contact-pfp img {
+/* Styling for add contact profile picture */
+.add-contact-pfp img {
   width: 140px;
   height: 140px;
   margin-bottom: 8px;
   border-radius: 70px;
 }
 
-/* Styling for new contact real file input */
-.new-contact-pfp input {
+/* Styling for add contact real file input */
+.add-contact-pfp input {
   display: none;
 }
 
 /* Styling for "add photo" button */
-.new-contact-pfp span {
+.add-contact-pfp span {
   font-size: 15px;
 }
 
@@ -161,8 +169,8 @@ select {
   margin-bottom: 40px;
 }
 
-/* Styling for new contact input field containers */
-.new-contact-input-div {
+/* Styling for add contact input field containers */
+.add-contact-input-div {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -170,8 +178,8 @@ select {
   background-color: rgb(49, 46, 42);
 }
 
-/* Styling for new contact input fields */
-.new-contact-input {
+/* Styling for add contact input fields */
+.add-contact-input {
   width: 96.5%;
   background-color: rgb(49, 46, 42);
   color: white;
@@ -184,7 +192,7 @@ select {
 }
 
 /* Removes bottom border from company input field */
-.new-contact-input-div:last-child .new-contact-input {
+.add-contact-input-div:last-child .add-contact-input {
   border: none;
 }
 
@@ -198,7 +206,7 @@ select {
   color: rgb(13, 124, 244);
 }
 
-.new-contact-input::placeholder {
+.add-contact-input::placeholder {
   color: rgb(239, 237, 237);
 }
 
@@ -224,7 +232,7 @@ select {
 }
 
 /* Styling for "add phone"/"add email" labels */
-.new-contact-label {
+.add-contact-label {
   font-size: 16px;
 }
 
@@ -286,4 +294,128 @@ select {
   padding: 0 12px;
   color: white;
   background-color: rgb(49, 46, 42);
+}
+
+/* Styling for current contact element container */
+.current-contact {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(8, 8, 8);
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 98%;
+}
+
+/* Styling for current contact header */
+.current-contact-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 12px 20px 25px;
+}
+
+/* Styling for current contact header buttons */
+.current-back, .current-edit {
+  color: rgb(13, 124, 244);
+}
+
+.current-back:hover, .current-edit:hover {
+  cursor: pointer;
+}
+
+/* Styling for current contact picture div */
+.current-contact-pfp {
+  margin: -25px auto 0;
+}
+
+/* Styling for current contact picture */
+.current-contact-pfp img {
+  width: 100px;
+  height: 100px;
+  border-radius: 70px;
+}
+
+/* Styling for current contact name & company container */
+.current-name-company-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Styling for current contact name */
+.current-name {
+  font-size: 25px;
+}
+
+/* Styling for current contact company */
+.current-company {
+  font-size: 15px;
+  color: gray;
+}
+
+/* Styling for current contact information containers */
+.current-info-div {
+  padding: 0 20px;
+  margin-bottom: 15px;
+}
+
+/* Styling for the contents within the current contact info containers */
+.current-info-contents {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(38, 36, 33);
+  padding: 5px 15px;
+  border-radius: 7px;
+}
+
+/* Styling for current contact info labels */
+.current-info-label {
+  font-size: 15px;
+  font-weight: 300;
+}
+
+/* Styling for current contact info */
+.current-info {
+  color: rgb(13, 124, 244);
+}
+
+/* Styling for current contact birthday */
+.current-birthday {
+  color: rgb(13, 124, 244);
+  background-color: rgb(38, 36, 33);
+  border: none;
+  outline: none;
+  margin-left: -5px;
+}
+
+/* Styling for current conntact note */
+.current-note {
+  font-size: 15px;
+  font-weight: 300;
+  padding-bottom: 20px;
+}
+
+/* Styling for current contact delete button */
+.delete-contact {
+  margin: 0px 20px;
+  height: 40px;
+  color: red;
+  background-color: rgb(38, 36, 33);
+  border: none;
+  border-radius: 7px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.delete-contact:hover {
+  cursor: pointer;
+}
+
+.delete-contact:active {
+  background-color: rgb(49, 44, 44);
 }

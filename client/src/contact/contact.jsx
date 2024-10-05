@@ -25,20 +25,24 @@ function Contact() {
   const [emailSlots, setEmailSlots] = useState([]);
 
   // Creates new contact form */
-  function displayNewContact() {
+  function displayAddContact(edit) {
+    if (edit == true) {
+
+    }
+
     return(
       <>
-        {/* HTML for new contact form */}
-        <div className='new-contact'>
+        {/* HTML for add contact form */}
+        <div className='add-contact'>
           {/* Form header */}
-          <div className='new-contact-header'>
-            <span className='new-contact-cancel' onClick={toggleNewContact}>Cancel</span>
-            <span className='new-contact-title'>New Contact</span>
-            <span className='new-contact-done' onClick={addContact}>Done</span>
+          <div className='add-contact-header'>
+            <span className='add-contact-cancel' onClick={toggleNewContact}>Cancel</span>
+            <span className='add-contact-title'>New Contact</span>
+            <span className='add-contact-done' onClick={addContact}>Done</span>
           </div>
 
           {/* Contact picture section */}
-          <div className='new-contact-pfp'>
+          <div className='add-contact-pfp'>
             <img id='profile-picture' src="profile-picture.png" alt="" />
             <input className='real-file-button' 
                    onChange={displayPicture} 
@@ -51,31 +55,31 @@ function Contact() {
           {/* Input section for name and company */}
           <div className='name-company-div'>
             {/* First name */}
-            <div className='new-contact-input-div'>
-              <input className='new-contact-input' id='first-name' type="text" placeholder='First name' maxlength="100"/>
+            <div className='add-contact-input-div'>
+              <input className='add-contact-input' id='first-name' type="text" placeholder='First name' maxlength="100"/>
             </div>
 
             {/* Last name */}
-            <div className='new-contact-input-div'>
-              <input className='new-contact-input' id='last-name' type="text" placeholder='Last name' maxlength="100"/>
+            <div className='add-contact-input-div'>
+              <input className='add-contact-input' id='last-name' type="text" placeholder='Last name' maxlength="100"/>
             </div>
 
             {/* Company */}
-            <div className='new-contact-input-div'>
-              <input className='new-contact-input' id='company' type="text" placeholder='Company' maxlength="100"/>
+            <div className='add-contact-input-div'>
+              <input className='add-contact-input' id='company' type="text" placeholder='Company' maxlength="100"/>
             </div>
           </div>
 
           {/* Input section for birthday and home address */}
           <div className='birthday-address-div'>
             {/* Birthday */}
-            <div className='new-contact-input-div'>
-              <input className='new-contact-input' id='birthday' type="date" />
+            <div className='add-contact-input-div'>
+              <input className='add-contact-input' id='birthday' type="date" />
             </div>
 
             {/* Home address */}
-            <div className='new-contact-input-div'>
-              <input className='new-contact-input' id='address' type="text" placeholder='Address' maxlength="100"/>
+            <div className='add-contact-input-div'>
+              <input className='add-contact-input' id='address' type="text" placeholder='Address' maxlength="100"/>
             </div>
           </div>
 
@@ -84,7 +88,7 @@ function Contact() {
             return(
               <>
                 {/* HTML for phone slot */}
-                <div className='new-contact-input-div phone-slot'key={index}>
+                <div className='add-contact-input-div phone-slot'key={index}>
                   <img src="remove.png" className='remove-address' onClick={() => removePhoneSlots(index)} alt="" />
 
                   <select className='address-select' name="phone-select">
@@ -94,7 +98,7 @@ function Contact() {
                   </select>
 
                   <span className='select-arrow'>{`>`}</span>
-                  <input className='new-contact-input' id='phone' type="text" placeholder='Phone' maxlength="100"/>
+                  <input className='add-contact-input' id='phone' type="text" placeholder='Phone' maxlength="100"/>
                 </div>
               </>
             );
@@ -103,16 +107,16 @@ function Contact() {
           {/* Label that lets the user create new phone slots */}
           <div className='address-div'>
             <img src="add-2.png" className='add-address' onClick={addPhoneSlots} alt="" />
-            <span className='new-contact-label'>add phone</span>
+            <span className='add-contact-label'>add phone</span>
           </div>
 
           {/* Iterate through emailSlots array to display all email input fields */}
           {emailSlots.map((_, index) => {
             return(
               // HTML for email slot
-              <div className='new-contact-input-div email-slot' key={index}>
+              <div className='add-contact-input-div email-slot' key={index}>
                 <img src="remove.png" className='remove-address' onClick={() => removeEmailSlots(index)} alt="" />
-                <input className='new-contact-input' id='email' type="text" placeholder='Email' maxlength="100"/>
+                <input className='add-contact-input' id='email' type="text" placeholder='Email' maxlength="100"/>
               </div>
             );
           })}
@@ -120,7 +124,7 @@ function Contact() {
           {/* Label that lets the user create new email slots */}
           <div className='address-div'>
             <img src="add-2.png" className='add-address' onClick={addEmailSlots} alt="" />
-            <span className='new-contact-label'> add email</span>
+            <span className='add-contact-label'> add email</span>
           </div>
 
           {/* Input section for notes */}
@@ -155,7 +159,7 @@ function Contact() {
 
   // Displays or hides new contact form */
   function toggleNewContact() {
-    const newContact = document.querySelector('.new-contact');
+    const newContact = document.querySelector('.add-contact');
     newContact.style.display = newContact.style.display === 'flex' ? 'none' : 'flex';
   }
 
@@ -251,6 +255,75 @@ function Contact() {
     return 'profile-picture.png';
   }
 
+  // Displays the information of the selected contact
+  function displayCurrentContact() {
+    return(
+      <>
+        <div className='current-contact'>
+          {/* Container header */}
+          <div className='current-contact-header'>
+            <span className='current-back'>Back</span>
+            <span className='current-edit'>Edit</span>
+          </div>
+
+          {/* Contact picture */}
+          <div className='current-contact-pfp'>
+            <img src="profile-picture.png" alt="" />
+          </div>
+
+          {/* Name & company container */}
+          <div className='current-name-company-div'>
+            <span className='current-name'>Adam Alagil</span>
+            <span className='current-company'>Fortnite</span>
+          </div>
+
+          {/* Phone number */}
+          <div className='current-info-div'>
+            <div className='current-info-contents'>
+              <span className='current-info-label'>home</span>
+              <span className='current-info'>{`1 (905) 341-1470`}</span>
+            </div>
+          </div>
+
+          {/* Email address */}
+          <div className='current-info-div'>
+            <div className='current-info-contents'>
+              <span className='current-info-label'>email</span>
+              <span className='current-info'>adamalagil99@gmail.com</span>
+            </div>
+          </div>
+
+          {/* Home address */}
+          <div className='current-info-div'>
+            <div className='current-info-contents'>
+              <span className='current-info-label'>address</span>
+              <span className='current-info'>2023 Test Street Chula Vista, CA 91910</span>
+            </div>
+          </div>
+
+          {/* Birthday */}
+          <div className='current-info-div'>
+            <div className='current-info-contents'>
+              <span className='current-info-label'>birthday</span>
+              <input className='current-birthday' type="date" value='2002-11-03'/>
+            </div>
+          </div>
+
+          {/* Notes container */}
+          <div className='current-info-div'>
+            <div className='current-info-contents'>
+              <span className='current-info-label'>Notes</span>
+              <span className='current-note'>this is a test note</span>
+            </div>
+          </div>
+
+          {/* Button to delete contact */}
+          <button className='delete-contact'>Delete Contact</button>
+        </div>
+      </>
+    );
+  }
+
   // Enables/disables editing for page header
   function toggleEdit() {
     const header = document.querySelector('.contact-header');
@@ -289,8 +362,11 @@ function Contact() {
   return(
     <>
       <div className='contact-wrapper'>
-        {/* Display new contact form (hidden by default) */}
-        {displayNewContact()}
+        {/* Display add contact form (hidden by default) */}
+        {displayAddContact(false)}
+
+        {/* Display current contact element (hidden by default) */}
+        {displayCurrentContact()}
 
         {/* Header buttons */}
         <div className='contact-header-buttons'>
@@ -298,7 +374,7 @@ function Contact() {
                 to='/lists'>
             Lists
           </Link>
-          <img className='add-contact' onClick={toggleNewContact} src="add.png" alt="" />
+          <img className='add-contact-img' onClick={toggleNewContact} src="add.png" alt="" />
         </div>
 
         {/* Header */}
