@@ -1,0 +1,123 @@
+/* Styling for current contact element container */
+.current-contact {
+  display: none;
+  flex-direction: column;
+  background-color: rgb(8, 8, 8);
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 98%;
+}
+
+/* Styling for current contact header */
+.current-contact-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 12px 20px 25px;
+}
+
+/* Styling for current contact header buttons */
+.current-back, .current-edit {
+  color: rgb(13, 124, 244);
+}
+
+.current-back:hover, .current-edit:hover {
+  cursor: pointer;
+}
+
+/* Styling for current contact picture div */
+.current-contact-pfp {
+  margin: -25px auto 0;
+}
+
+/* Styling for current contact picture */
+.current-contact-pfp img {
+  width: 100px;
+  height: 100px;
+  border-radius: 70px;
+}
+
+/* Styling for current contact name & company container */
+.current-name-company-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Styling for current contact name */
+.current-name {
+  font-size: 25px;
+}
+
+/* Styling for current contact company */
+.current-company {
+  font-size: 15px;
+  color: gray;
+}
+
+/* Styling for current contact information containers */
+.current-info-div {
+  padding: 0 20px;
+  margin-bottom: 15px;
+}
+
+/* Styling for the contents within the current contact info containers */
+.current-info-contents {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(38, 36, 33);
+  padding: 5px 15px;
+  border-radius: 7px;
+}
+
+/* Styling for current contact info labels */
+.current-info-label {
+  font-size: 15px;
+  font-weight: 300;
+}
+
+/* Styling for current contact info */
+.current-info {
+  color: rgb(13, 124, 244);
+}
+
+/* Styling for current contact birthday */
+.current-birthday {
+  color: rgb(13, 124, 244);
+  background-color: rgb(38, 36, 33);
+  border: none;
+  outline: none;
+  margin-left: -5px;
+}
+
+/* Styling for current conntact note */
+.current-note {
+  font-size: 15px;
+  font-weight: 300;
+  padding-bottom: 20px;
+}
+
+/* Styling for current contact delete button */
+.delete-contact {
+  margin: 0px 20px;
+  height: 40px;
+  color: red;
+  background-color: rgb(38, 36, 33);
+  border: none;
+  border-radius: 7px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.delete-contact:hover {
+  cursor: pointer;
+}
+
+.delete-contact:active {
+  background-color: rgb(49, 44, 44);
+}
