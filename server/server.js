@@ -31,10 +31,40 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
+// GET request for gathering all data from the main table associated with the contact list
+app.get('/getContacts/:name', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  const result = db.getContacts(req.params.name);
+
+  result
+  .then(data => res.json(data))
+  .catch(err => console.log(err))
+});
+
+// GET request for gathering all data from the numbers table associated with the contact name
+app.get('/getContactNumbers/:name', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  const result = db.getContactNumbers(req.params.name);
+
+  result
+  .then(data => res.json(data))
+  .catch(err => console.log(err))
+});
+
+// GET request for gathering all data from the emails table associated with the contact name
+app.get('/getContactEmails/:name', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  const result = db.getContactEmails(req.params.name);
+
+  result
+  .then(data => res.json(data))
+  .catch(err => console.log(err))
+});
+
 // POST request for creating a list
 app.post('/createList/:name', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.createList(req.params.name);
+  db.createList(req.params.name);
 });
 
 // POST request for uploading pictures
@@ -45,7 +75,7 @@ app.post('/uploadPicture', upload.single('file'), (req, res) => {
 // POST request for adding contact to SQL database
 app.post('/addContact', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.addContact(req.body);
+  db.addContact(req.body);
 });
 
 // Start server

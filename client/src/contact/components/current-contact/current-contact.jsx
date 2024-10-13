@@ -49,7 +49,7 @@ function CurrentContact() {
         <div className='current-info-div'>
           <div className='current-info-contents'>
             <span className='current-info-label'>birthday</span>
-            <input className='current-birthday' type="date" value='2002-11-03'/>
+            <input className='current-birthday' type="date" defaultValue='2002-11-03'/>
           </div>
         </div>
 

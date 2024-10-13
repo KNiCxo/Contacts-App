@@ -31,15 +31,15 @@ function AddContact(props) {
     setPhoneSlots(prevSlots => prevSlots.filter((_, i) => i != index));
   }
   
-    // Adds an additional element to the emailSlots array
-    function addEmailSlots() {
-      setEmailSlots(prevSlots => [...prevSlots, {}]);
-    }
-  
-    // Removes one element from emailSlots array
-    function removeEmailSlots(index) {
-      setEmailSlots(prevSlots => prevSlots.filter((_, i) => i != index));
-    }
+  // Adds an additional element to the emailSlots array
+  function addEmailSlots() {
+    setEmailSlots(prevSlots => [...prevSlots, {}]);
+  }
+
+  // Removes one element from emailSlots array
+  function removeEmailSlots(index) {
+    setEmailSlots(prevSlots => prevSlots.filter((_, i) => i != index));
+  }
 
   // Makes POST request to server that uploads contact pictures
   const uploadPicture = async ()=> {
@@ -72,53 +72,60 @@ function AddContact(props) {
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
     const company = document.getElementById('company').value;
-    const birthday = document.getElementById('birthday').value;
-    const address = document.getElementById('address').value;
-    let phoneNumbers = [];
-    let emails = [];
-    const note = document.getElementById('note').value;
 
-    // Get all phone elements and email elements and store as HTML objects
-    const phoneElements = document.getElementsByClassName('phone-slot');
-    const emailElements = document.getElementsByClassName('email-slot');
+    // If the first name, last name, and company fields are empty, ignore add request
+    if (firstName == '' && lastName == '' && company == '') {
+      return;
+    } else {
+      const birthday = document.getElementById('birthday').value;
+      const address = document.getElementById('address').value;
+      let phoneNumbers = [];
+      let emails = [];
+      const note = document.getElementById('note').value;
 
-    // Loop through elements and gather the phone type and number and push into the phoneNumbers array
-    Array.from(phoneElements).forEach(slot => {
-      phoneNumbers.push({
-        type: slot.children[1].value,
-        number: slot.children[3].value
+      // Get all phone elements and email elements and store as HTML objects
+      const phoneElements = document.getElementsByClassName('phone-slot');
+      const emailElements = document.getElementsByClassName('email-slot');
+
+      // Loop through elements and gather the phone type and number and push into the phoneNumbers array
+      Array.from(phoneElements).forEach(slot => {
+        phoneNumbers.push({
+          type: slot.children[1].value,
+          number: slot.children[3].value
+        });
       });
-    });
 
-    // Loop through elements and add emails to array
-    Array.from(emailElements).forEach(slot => {
-      emails.push(slot.children[1].value)
-    });
+      // Loop through elements and add emails to array
+      Array.from(emailElements).forEach(slot => {
+        emails.push(slot.children[1].value)
+      });
 
-    // Combine all info into an object
-    const contactInfo = {
-      listName: props.displayName,
-      fileName: 'test.jpg',
-      firstName: firstName,
-      lastName: lastName,
-      company: company,
-      birthday: birthday,
-      address: address,
-      phoneNumbers: phoneNumbers,
-      emails: emails,
-      note: note
-    }
+      // Combine all info into an object
+      const contactInfo = {
+        listName: props.displayName,
+        fileName: 'test.jpg',
+        firstName: firstName,
+        lastName: lastName,
+        company: company,
+        birthday: birthday,
+        address: address,
+        phoneNumbers: phoneNumbers,
+        emails: emails,
+        note: note
+      }
     
-    // Make POST request
-    fetch('http://localhost:4001/addContact', {
-      headers: {
-        'Content-type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(contactInfo)
-    });
-
-    props.toggleAddContact();
+      // Make POST request
+      fetch('http://localhost:4001/addContact', {
+        headers: {
+          'Content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(contactInfo)
+      });
+      
+      // Hide add contact form after clicking done
+      props.toggleAddContact();
+    }
   }
 
   return(
@@ -147,17 +154,17 @@ function AddContact(props) {
         <div className='name-company-div'>
           {/* First name */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='first-name' type="text" placeholder='First name' maxlength="100"/>
+            <input className='add-contact-input' id='first-name' type="text" placeholder='First name' maxLength="100"/>
           </div>
 
           {/* Last name */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='last-name' type="text" placeholder='Last name' maxlength="100"/>
+            <input className='add-contact-input' id='last-name' type="text" placeholder='Last name' maxLength="100"/>
           </div>
 
           {/* Company */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='company' type="text" placeholder='Company' maxlength="100"/>
+            <input className='add-contact-input' id='company' type="text" placeholder='Company' maxLength="100"/>
           </div>
         </div>
 
@@ -170,7 +177,7 @@ function AddContact(props) {
 
           {/* Home address */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='address' type="text" placeholder='Address' maxlength="100"/>
+            <input className='add-contact-input' id='address' type="text" placeholder='Address' maxLength="100"/>
           </div>
         </div>
 
@@ -179,7 +186,7 @@ function AddContact(props) {
           return(
             <>
               {/* HTML for phone slot */}
-              <div className='add-contact-input-div phone-slot'key={index}>
+              <div className='add-contact-input-div phone-slot' key={index}>
                 <img src="remove.png" className='remove-address' onClick={() => removePhoneSlots(index)} alt="" />
 
                 <select className='address-select' name="phone-select">
@@ -189,7 +196,7 @@ function AddContact(props) {
                 </select>
 
                 <span className='select-arrow'>{`>`}</span>
-                <input className='add-contact-input' id='phone' type="text" placeholder='Phone' maxlength="100"/>
+                <input className='add-contact-input' id='phone' type="text" placeholder='Phone' maxLength="100"/>
               </div>
             </>
           );
@@ -207,7 +214,7 @@ function AddContact(props) {
             // HTML for email slot
             <div className='add-contact-input-div email-slot' key={index}>
               <img src="remove.png" className='remove-address' onClick={() => removeEmailSlots(index)} alt="" />
-              <input className='add-contact-input' id='email' type="text" placeholder='Email' maxlength="100"/>
+              <input className='add-contact-input' id='email' type="text" placeholder='Email' maxLength="100"/>
             </div>
           );
         })}
@@ -221,7 +228,7 @@ function AddContact(props) {
         {/* Input section for notes */}
         <div className='notes-div'>
           <span>Notes</span>
-          <textarea name="" id="note" cols="30" rows="10" maxlength="1000"></textarea>
+          <textarea name="" id="note" cols="30" rows="10" maxLength="1000"></textarea>
         </div>
       </div>
     </>

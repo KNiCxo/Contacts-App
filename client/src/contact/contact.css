@@ -73,6 +73,13 @@ select {
   flex-direction: column;
 }
 
+/* Styling for contact alphabet groupings */
+.alphabet-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
 /* Styling for contact alphabet header */
 .alphabet-header {
   font-weight: 600;
