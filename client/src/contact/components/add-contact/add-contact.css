@@ -1,6 +1,6 @@
 /* Styling for add contact container */
 .add-contact {
-  display: none;
+  display: flex;
   flex-direction: column;
   background-color: rgb(29, 26, 26);
   border-top-left-radius: 12px;

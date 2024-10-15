@@ -68,7 +68,7 @@ function AddContact(props) {
 
   // Gathers all information from the new contact form and sends a POST request to the server
   const addContact = async () => {
-    //const fileName = await uploadPicture();
+    const fileName = await uploadPicture();
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
     const company = document.getElementById('company').value;
@@ -103,7 +103,7 @@ function AddContact(props) {
       // Combine all info into an object
       const contactInfo = {
         listName: props.displayName,
-        fileName: 'test.jpg',
+        fileName: fileName,
         firstName: firstName,
         lastName: lastName,
         company: company,
@@ -115,14 +115,14 @@ function AddContact(props) {
       }
     
       // Make POST request
-      fetch('http://localhost:4001/addContact', {
+      await fetch('http://localhost:4001/addContact', {
         headers: {
           'Content-type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify(contactInfo)
       });
-      
+
       // Hide add contact form after clicking done
       props.toggleAddContact();
     }

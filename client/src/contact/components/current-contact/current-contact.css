@@ -1,6 +1,6 @@
 /* Styling for current contact element container */
 .current-contact {
-  display: none;
+  display: flex;
   flex-direction: column;
   background-color: rgb(8, 8, 8);
   z-index: 100;
@@ -99,7 +99,7 @@
 .current-note {
   font-size: 15px;
   font-weight: 300;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 /* Styling for current contact delete button */

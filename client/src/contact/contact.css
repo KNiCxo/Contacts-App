@@ -10,6 +10,13 @@ select {
   width: 95%;
 }
 
+/* Styling for top part of contact page */
+.contact-top {
+  background-color: rgb(8, 8, 8);
+  position: sticky;
+  top: 0;
+}
+
 /* Styling for header buttons div */
 .contact-header-buttons {
   display: flex;

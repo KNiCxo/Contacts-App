@@ -42,9 +42,9 @@ app.get('/getContacts/:name', (req, res) => {
 });
 
 // GET request for gathering all data from the numbers table associated with the contact name
-app.get('/getContactNumbers/:name', (req, res) => {
+app.get('/getContactNumbers/:name/:contactId', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.getContactNumbers(req.params.name);
+  const result = db.getContactNumbers(req.params.name, req.params.contactId);
 
   result
   .then(data => res.json(data))
@@ -52,9 +52,9 @@ app.get('/getContactNumbers/:name', (req, res) => {
 });
 
 // GET request for gathering all data from the emails table associated with the contact name
-app.get('/getContactEmails/:name', (req, res) => {
+app.get('/getContactEmails/:name/:contactId', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.getContactEmails(req.params.name);
+  const result = db.getContactEmails(req.params.name, req.params.contactId);
 
   result
   .then(data => res.json(data))
@@ -76,6 +76,7 @@ app.post('/uploadPicture', upload.single('file'), (req, res) => {
 app.post('/addContact', (req, res) => {
   const db = dbService.getDbServiceInstance();
   db.addContact(req.body);
+  res.status(200).send('Contact added successfully');
 });
 
 // Start server

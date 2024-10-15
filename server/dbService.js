@@ -31,10 +31,11 @@ class DbService {
   static getDbServiceInstance() {
     return instance ? instance : new DbService();
   }
+  
   // Get all rows from the main table associated with the contact list name
   async getContacts(name) {
     try {
-      const contactsMain = await new Promise((resolve, reject) => {
+      const contacts = await new Promise((resolve, reject) => {
         const query = `SELECT * FROM ??;`;
 
         connection.query(query, [name], (err, results) => {
@@ -45,30 +46,19 @@ class DbService {
         });
       });
 
-      const contactsNumbers = await new Promise((resolve, reject) => {
-        const query = `SELECT * FROM ??;`;
-
-        connection.query(query, [`${name}Numbers`], (err, results) => {
-          if (err) {
-            reject(new Error(err.message));
-          }
-          resolve(results);
-        });
-      });
-
-      return contactsMain;
+      return contacts;
     } catch (error) {
       console.log(error);
     }
   }
 
   // Get all rows from the numbers table associated with the contact name
-  async getContactNumbers(name) {
+  async getContactNumbers(name, id) {
     try {
       const contactNumbers = await new Promise((resolve, reject) => {
-        const query = `SELECT * FROM ??;`;
+        const query = `SELECT * FROM ?? WHERE ContactId = ?;`;
 
-        connection.query(query, [`${name}Numbers`], (err, results) => {
+        connection.query(query, [`${name}Numbers`, id], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -83,12 +73,12 @@ class DbService {
   }
 
   // Get all rows from the numbers table associated with the contact name
-  async getContactEmails(name) {
+  async getContactEmails(name, id) {
     try {
       const contactEmails = await new Promise((resolve, reject) => {
-        const query = `SELECT * FROM ??;`;
+        const query = `SELECT * FROM ?? WHERE ContactId = ?;`;
 
-        connection.query(query, [`${name}Emails`], (err, results) => {
+        connection.query(query, [`${name}Emails`, id], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
