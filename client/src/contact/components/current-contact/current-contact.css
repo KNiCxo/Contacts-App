@@ -102,10 +102,16 @@
   padding-bottom: 30px;
 }
 
+/* Styling for current contact delete button div */
+.current-delete-div {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Styling for current contact delete button */
 .delete-contact {
-  margin: 0px 20px;
-  height: 40px;
+  margin: 0px 20px 15px;
+  height: 45px;
   color: red;
   background-color: rgb(38, 36, 33);
   border: none;

@@ -94,7 +94,9 @@ function CurrentContact(props) {
         </div> 
 
         {/* Button to delete contact */}
-        <button className='delete-contact' onClick={deleteContact}>Delete Contact</button>
+        <div className='current-delete-div'>
+          <button className='delete-contact' onClick={deleteContact}>Delete Contact</button>
+        </div>
       </div>
     </>
   );

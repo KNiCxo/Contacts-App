@@ -28,8 +28,11 @@ function Contact() {
   // Checks whether the current contacts form is displayed or not
   const [contactDisplayed, setContactDisplayed] = useState(false);
 
-  // Store contacts data from database
+  // Immutable contacts list used to remember the original, non-filtered version
   const [contacts, setContacts] = useState(null);
+
+  // Contacts array that can change during app usage
+  const [mutableContacts, setMutableContacts] = useState(null);
 
   // Store data for current contact
   const [contact, setContact] = useState(null);
@@ -44,8 +47,8 @@ function Contact() {
   }
 
   // Sorts contacts into alphabeticall order
-  function sortContacts(contacts) {
-    contacts.sort((a, b) => {
+  function sortContacts(list) { 
+    list.sort((a, b) => {
       let nameA;
       let nameB;
       
@@ -138,7 +141,30 @@ function Contact() {
     });
 
     // Update contacts array
-    setContacts(contacts);
+    setMutableContacts(list);
+    setContacts(list);
+  }
+
+  // Filters contacts when search bar is used
+  function filterContacts() {
+    // Get value of search bar input field
+    const searchInput = document.querySelector('.search-field').value;
+
+    const filteredContacts = contacts.filter((contact) => {
+      // Uses these paramters for filtering
+      let firstName = contact.FirstName.toLowerCase();
+      let lastName = contact.LastName.toLowerCase();
+      let company = contact.Company.toLowerCase();
+
+      // Keep contact if input value exists in the first name or last name
+      // or if first name and last name is empty but the input value exists in the company name
+      return firstName.indexOf(searchInput) > -1 || 
+             lastName.indexOf(searchInput) > -1 || 
+             (firstName == '' && lastName == '' && company.indexOf(searchInput) > -1);
+    });
+
+    // Update contacts
+    setMutableContacts(filteredContacts);
   }
 
   // Displays contacts, grouped and seperated by a letter header
@@ -147,7 +173,7 @@ function Contact() {
     let groupedContacts = {};
 
     // Iterate through contacts array to sort them into groups
-    contacts.forEach((contact, _) => {
+    mutableContacts.forEach((contact, _) => {
       // Choose letter to sort by in the order of: "Last Name", "First Name", "Company"
       let firstLetter;
 
@@ -325,12 +351,12 @@ function Contact() {
           </div>
 
           {/* Search bar component */}
-          <SearchBar></SearchBar>
+          <SearchBar filterContacts={filterContacts}></SearchBar>
         </div>
 
         {/* Contact entries */}
         <div className='contacts'>
-          {contacts && displayContacts()}
+          {mutableContacts && displayContacts()}
         </div>
       </div>
     </>
