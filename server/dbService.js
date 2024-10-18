@@ -211,6 +211,61 @@ class DbService {
       console.log(error);
     }
   }
+  
+  // Deletes all rows relating to the contact from the tables and returns AviPath so contact picture can be deleted
+  async deleteContact(name, id) {
+    try {
+      // Get AviPath from db
+      const aviPath = await new Promise((resolve, reject) => {
+        const query = `SELECT AviPath FROM ?? WHERE ContactId = ?;`;
+
+        connection.query(query, [name, id], (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          }
+          resolve(results);
+        });
+      });
+
+      // Delete row from main table
+      await new Promise((resolve, reject) => {
+        const query = `DELETE FROM ?? WHERE ContactId = ?`;
+        
+        connection.query(query, [name, id],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Delete row(s) from numbers table
+      await new Promise((resolve, reject) => {
+        const query = `DELETE FROM ?? WHERE ContactId = ?`;
+        
+        connection.query(query, [`${name}Numbers`, id],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Delete email(s) from numbers table
+      await new Promise((resolve, reject) => {
+        const query = `DELETE FROM ?? WHERE ContactId = ?`;
+        
+        connection.query(query, [`${name}Emails`, id],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Return AviPath
+      return aviPath;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = DbService;

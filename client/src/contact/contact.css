@@ -35,7 +35,7 @@ select {
 
 /* Styling for header */
 .contact-header {
-  background-color: black;
+  background-color: rgb(8, 8, 8);
   border: none;
   color: white;
   font-family: manrope;

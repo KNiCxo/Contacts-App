@@ -1,5 +1,6 @@
 // Get required modules for server
 const express = require('express');
+const fs = require('fs');
 const multer = require('multer');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -78,6 +79,23 @@ app.post('/addContact', (req, res) => {
   db.addContact(req.body);
   res.status(200).send('Contact added successfully');
 });
+
+// DELETE request for deleting contact information from SQL database
+app.delete('/deleteContact/:name/:contactId', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  const result = db.deleteContact(req.params.name, req.params.contactId);
+
+  // Delete file based on AviPath
+  result
+  .then(data => {
+    if (data[0].AviPath != 'profile-picture.png') {
+      fs.unlinkSync(`../client/public/uploads/${data[0].AviPath}`)
+    }
+  })
+  .catch(err => console.log(err));
+
+  res.status(200).send('Contact deleted successfully');
+})
 
 // Start server
 app.listen(process.env.PORT, () => console.log(`listening on port ${process.env.PORT}`));

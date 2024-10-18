@@ -13,8 +13,6 @@ function Contact() {
   // Enable navigation hook
   let navigate = useNavigate();
 
-  const [dummyState, setDummyState] = useState(0);
-
   // Gather contact lists from local storage or set as an empty array
   let contactLists = JSON.parse(localStorage.getItem('contactLists')) || [];
 
@@ -226,19 +224,24 @@ function Contact() {
     // Disable contacts list to prevent seeing part of the list when looking at add contact form
     const contacts = document.querySelector('.contacts');
     const topSection = document.querySelector('.contact-top');
-
+    
+    // If there is a valid entry parameter in the function call, then gather contact info
     if (entry != undefined) {
+      // Gather phone number data
       const numberResponse = await fetch(`http://localhost:4001/getContactNumbers/${displayName}/${entry.ContactId}`);
       const numberData = await numberResponse.json();
 
+      // Gather email data
       const emailResponse = await fetch(`http://localhost:4001/getContactEmails/${displayName}/${entry.ContactId}`);
       const emailData = await emailResponse.json();
 
+      // Store entry data
       setContact(entry);
       setContactEmails(emailData);
       setContactNumbers(numberData);
     }
 
+    // Displays/hides other HTML components on page and displays/hides current contact form
     if (!contactDisplayed) {
       contacts.style.display = 'none';
       topSection.style.display = 'none';
@@ -288,7 +291,7 @@ function Contact() {
     if (displayName) {
       getContacts();
     }
-  }, [displayName, addContactDisplayed]);
+  }, [displayName, addContactDisplayed, contactDisplayed]);
 
   return(
     <>
@@ -299,6 +302,7 @@ function Contact() {
         {/* Display current contact element (hidden by default) */}
         {contactDisplayed && 
         <CurrentContact toggleCurrentContact={toggleCurrentContact} 
+                        displayName={displayName}
                         contact={contact}
                         contactNumbers={contactNumbers}
                         contactEmails={contactEmails}>

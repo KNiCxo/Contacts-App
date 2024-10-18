@@ -1,6 +1,18 @@
 import './current-contact.css';
 
 function CurrentContact(props) {
+  const deleteContact = async () => {
+    await fetch(`http://localhost:4001/deleteContact/${props.displayName}/${props.contact.ContactId}`, {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      method: 'DELETE',
+    });
+
+    props.toggleCurrentContact();
+    console.log('here');
+  }
+
   return(
     <>
       <div className='current-contact'>
@@ -82,7 +94,7 @@ function CurrentContact(props) {
         </div> 
 
         {/* Button to delete contact */}
-        <button className='delete-contact'>Delete Contact</button>
+        <button className='delete-contact' onClick={deleteContact}>Delete Contact</button>
       </div>
     </>
   );
