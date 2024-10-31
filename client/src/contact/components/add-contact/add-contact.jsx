@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 
 import './add-contact.css';
 
+// Displays the add contact form and all of its functionality
 function AddContact(props) {
   // Create empty arrays for the new contact phone/email slots
-  const [phoneSlots, setPhoneSlots] = useState([]);
-  const [emailSlots, setEmailSlots] = useState([]);
+  const [phoneSlots, setPhoneSlots] = useState(props.editingContact ? props.contactNumbers : []);
+  const [emailSlots, setEmailSlots] = useState(props.editingContact ? props.contactEmails : []);
 
   // Clicks on the real but hidden file button to allow user to upload a contact picture
   function activateFileButton() {
@@ -13,32 +14,64 @@ function AddContact(props) {
     realFileButton.click();
   }
 
-  // Displays contact picture in the new contact form
+  // Displays contact picture in the new/edit contact form
   function displayPicture() {
     const profilePicture = document.getElementById('profile-picture');
     const realFileButton  = document.querySelector('.real-file-button');
 
     profilePicture.src = URL.createObjectURL(realFileButton.files[0]);
+
+    // Used to display the new profile image if the user updated it
+    if (props.editingContact) {
+      props.setUpdatedPicture(URL.createObjectURL(realFileButton.files[0]));
+    }
   }
 
   // Adds an additional element to the phoneSlots array
   function addPhoneSlots() {
-    setPhoneSlots(prevSlots => [...prevSlots, {}]);
+    setPhoneSlots(prevSlots => [...prevSlots, {Type: 'mobile', Number: ''}]);
   }
   
   // Removes one element from phoneSlots array
   function removePhoneSlots(index) {
-    setPhoneSlots(prevSlots => prevSlots.filter((_, i) => i != index));
+    // Get all phone elements and store as HTML objects
+    const phoneElements = document.getElementsByClassName('phone-slot');
+
+    // Temporarily holds new array after slot is removed
+    let tempArr = [];
+
+    // Loop through elements and gather the phone type and number and push into the temp array
+    Array.from(phoneElements).forEach(slot => {
+      tempArr.push({
+        Type: slot.children[1].value,
+        Number: slot.children[3].value
+      });
+    });
+    
+    // Update phone slots
+    setPhoneSlots(tempArr.filter((_, i) => i != index));
   }
   
   // Adds an additional element to the emailSlots array
   function addEmailSlots() {
-    setEmailSlots(prevSlots => [...prevSlots, {}]);
+    setEmailSlots(prevSlots => [...prevSlots, {Email: ''}]);
   }
 
   // Removes one element from emailSlots array
   function removeEmailSlots(index) {
-    setEmailSlots(prevSlots => prevSlots.filter((_, i) => i != index));
+    // Get all email elements and store as HTML objects
+    const emailElements = document.getElementsByClassName('email-slot');
+
+    // Temporarily holds new array after slot is removed
+    let tempArr = [];
+
+    // Loop through elements and gather the emails and push into the temp array
+    Array.from(emailElements).forEach(slot => {
+      tempArr.push({Email: slot.children[1].value});
+    });
+
+    // Update email slots
+    setEmailSlots(tempArr.filter((_, i) => i != index));
   }
 
   // Makes POST request to server that uploads contact pictures
@@ -62,11 +95,12 @@ function AddContact(props) {
       return json.filename;
     }
     
-    // Return name of default picture if no file was uploaded
-    return 'profile-picture.png';
+    // Return file of existing picture if contact is being edited
+    // Else return the default picture name
+    return props.editingContact ? props.contact.AviPath : 'profile-picture.png';
   }
 
-  // Gathers all information from the new contact form and sends a POST request to the server
+  // Gathers all information from the new/edit contact form and sends a POST/PUT request to the server
   const addContact = async () => {
     const fileName = await uploadPicture();
     const firstName = document.getElementById('first-name').value;
@@ -74,6 +108,7 @@ function AddContact(props) {
     const company = document.getElementById('company').value;
 
     // If the first name, last name, and company fields are empty, ignore add request
+    // Else, add or update contact
     if (firstName == '' && lastName == '' && company == '') {
       return;
     } else {
@@ -90,41 +125,72 @@ function AddContact(props) {
       // Loop through elements and gather the phone type and number and push into the phoneNumbers array
       Array.from(phoneElements).forEach(slot => {
         phoneNumbers.push({
-          type: slot.children[1].value,
-          number: slot.children[3].value
+          Type: slot.children[1].value,
+          Number: slot.children[3].value
         });
       });
 
       // Loop through elements and add emails to array
       Array.from(emailElements).forEach(slot => {
-        emails.push(slot.children[1].value)
+        emails.push({Email: slot.children[1].value});
       });
 
-      // Combine all info into an object
-      const contactInfo = {
-        listName: props.displayName,
-        fileName: fileName,
-        firstName: firstName,
-        lastName: lastName,
-        company: company,
-        birthday: birthday,
-        address: address,
-        phoneNumbers: phoneNumbers,
-        emails: emails,
-        note: note
+      // If editingContact flag is true, then update contact
+      // Else add contact
+      if (props.editingContact) {
+        // Combine all info into an object
+        const contactInfo = {
+          ListName: props.displayName,
+          ContactId: props.contact.ContactId,
+          AviPath: fileName,
+          OldAviPath: props.contact.AviPath,
+          FirstName: firstName,
+          LastName: lastName,
+          Company: company,
+          Birthday: birthday,
+          Address: address,
+          PhoneNumbers: phoneNumbers,
+          Emails: emails,
+          Note: note
+        }
+
+        await fetch(`http://localhost:4001/updateContact/`, {
+          headers: {
+            'Content-type': 'application/json'
+          },
+          method: 'PUT',
+          body: JSON.stringify(contactInfo)
+        });
+
+        // Hide add contact form and show current contact form after clicking done
+        props.toggleAddContact();
+        props.toggleCurrentContact(contactInfo);
+      } else {
+        // Combine all info into an object
+        const contactInfo = {
+          ListName: props.displayName,
+          AviPath: fileName,
+          FirstName: firstName,
+          LastName: lastName,
+          Company: company,
+          Birthday: birthday,
+          Address: address,
+          PhoneNumbers: phoneNumbers,
+          Emails: emails,
+          Note: note
+        }
+        
+        await fetch('http://localhost:4001/addContact', {
+          headers: {
+            'Content-type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(contactInfo)
+        });
+
+        // Hide add contact form after clicking done
+        props.toggleAddContact();
       }
-    
-      // Make POST request
-      await fetch('http://localhost:4001/addContact', {
-        headers: {
-          'Content-type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(contactInfo)
-      });
-
-      // Hide add contact form after clicking done
-      props.toggleAddContact();
     }
   }
 
@@ -134,19 +200,20 @@ function AddContact(props) {
       <div className='add-contact'>
         {/* Form header */}
         <div className='add-contact-header'>
-          <span className='add-contact-cancel' onClick={props.toggleAddContact}>Cancel</span>
-          <span className='add-contact-title'>New Contact</span>
+          <span className='add-contact-cancel' onClick={() => props.toggleAddContact()}>Cancel</span>
+          <span className='add-contact-title'>{props.editingContact ? 'Edit Contact': 'New Contact'}</span>
           <span className='add-contact-done' onClick={addContact}>Done</span>
         </div>
 
         {/* Contact picture section */}
         <div className='add-contact-pfp'>
-          <img id='profile-picture' src="profile-picture.png" alt="" />
+          <img id='profile-picture' 
+               src={props.editingContact ? `/uploads/${props.contact.AviPath}` : 'profile-picture.png'}/>
+
           <input className='real-file-button' 
                   onChange={displayPicture} 
                   type="file" 
-                  accept='image/jpeg, image/jpg, image/png'
-          />
+                  accept='image/jpeg, image/jpg, image/png'/>
           <span onClick={activateFileButton}>Add Photo</span>
         </div>
 
@@ -154,17 +221,32 @@ function AddContact(props) {
         <div className='name-company-div'>
           {/* First name */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='first-name' type="text" placeholder='First name' maxLength="100"/>
+            <input className='add-contact-input' 
+                   id='first-name' 
+                   type="text"
+                   defaultValue={props.editingContact ? props.contact.FirstName : ''}
+                   placeholder='First name' 
+                   maxLength="100"/>
           </div>
 
           {/* Last name */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='last-name' type="text" placeholder='Last name' maxLength="100"/>
+            <input className='add-contact-input' 
+                   id='last-name' 
+                   type="text"
+                   defaultValue={props.editingContact ? props.contact.LastName : ''}
+                   placeholder='Last name' 
+                   maxLength="100"/>
           </div>
 
           {/* Company */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='company' type="text" placeholder='Company' maxLength="100"/>
+            <input className='add-contact-input' 
+                   id='company' 
+                   type="text" 
+                   defaultValue={props.editingContact ? props.contact.Company : ''}
+                   placeholder='Company' 
+                   maxLength="100"/>
           </div>
         </div>
 
@@ -172,31 +254,46 @@ function AddContact(props) {
         <div className='birthday-address-div'>
           {/* Birthday */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='birthday' type="date" />
+            <input className='add-contact-input' 
+                   id='birthday' 
+                   type="date"
+                   defaultValue={props.editingContact ? props.contact.Birthday : ''}/>
           </div>
 
           {/* Home address */}
           <div className='add-contact-input-div'>
-            <input className='add-contact-input' id='address' type="text" placeholder='Address' maxLength="100"/>
+            <input className='add-contact-input' 
+                   id='address' 
+                   type="text" 
+                   defaultValue={props.editingContact ? props.contact.Address : ''}
+                   placeholder='Address' 
+                   maxLength="100"/>
           </div>
         </div>
 
         {/* Iterate through phoneSlots array to display all phone input fields */}
-        {phoneSlots.map((_, index) => {
+        {phoneSlots.map((slot, index) => {
           return(
             <>
               {/* HTML for phone slot */}
-              <div className='add-contact-input-div phone-slot' key={index}>
+              <div className='add-contact-input-div phone-slot' key={`${slot.Type}-${slot.Number}`}>
                 <img src="remove.png" className='remove-address' onClick={() => removePhoneSlots(index)} alt="" />
 
-                <select className='address-select' name="phone-select">
+                <select className='address-select' 
+                        defaultValue={slot.Type}
+                        name="phone-select">
                   <option value="mobile">mobile</option>
                   <option value="home">home</option>
                   <option value="work">work</option>
                 </select>
 
                 <span className='select-arrow'>{`>`}</span>
-                <input className='add-contact-input' id='phone' type="text" placeholder='Phone' maxLength="100"/>
+                <input className='add-contact-input' 
+                       id='phone' 
+                       type="text" 
+                       defaultValue={slot.Number}
+                       placeholder='Phone' 
+                       maxLength="100"/>
               </div>
             </>
           );
@@ -209,12 +306,17 @@ function AddContact(props) {
         </div>
 
         {/* Iterate through emailSlots array to display all email input fields */}
-        {emailSlots.map((_, index) => {
+        {emailSlots.map((slot, index) => {
           return(
             // HTML for email slot
-            <div className='add-contact-input-div email-slot' key={index}>
+            <div className='add-contact-input-div email-slot' key={`${slot.Email}-${index}`}>
               <img src="remove.png" className='remove-address' onClick={() => removeEmailSlots(index)} alt="" />
-              <input className='add-contact-input' id='email' type="text" placeholder='Email' maxLength="100"/>
+              <input className='add-contact-input' 
+                     id='email' 
+                     type="text"
+                     defaultValue={slot.Email}
+                     placeholder='Email' 
+                     maxLength="100"/>
             </div>
           );
         })}
@@ -228,7 +330,12 @@ function AddContact(props) {
         {/* Input section for notes */}
         <div className='notes-div'>
           <span>Notes</span>
-          <textarea name="" id="note" cols="30" rows="10" maxLength="1000"></textarea>
+          <textarea name="" 
+                    id="note" 
+                    defaultValue={props.editingContact ? props.contact.Note : ''}
+                    cols="30" 
+                    rows="10" 
+                    maxLength="1000" ></textarea>
         </div>
       </div>
     </>

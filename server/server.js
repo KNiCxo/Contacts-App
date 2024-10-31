@@ -73,10 +73,22 @@ app.post('/uploadPicture', upload.single('file'), (req, res) => {
   res.json(req.file);
 });
 
+// PUT request for updating contact information
+app.put('/updateContact/', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  db.updateContact(req.body);
+
+  // Delete file based on AviPath
+  if (req.body.AviPath != req.body.OldAviPath) {
+    fs.unlinkSync(`../client/public/uploads/${req.body.OldAviPath}`)
+  }
+  res.status(200).send('Contact updated successfully');
+});
+
 // POST request for adding contact to SQL database
 app.post('/addContact', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  db.addContact(req.body);
+  db.addContact(req.body);  
   res.status(200).send('Contact added successfully');
 });
 

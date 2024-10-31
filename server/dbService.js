@@ -33,12 +33,12 @@ class DbService {
   }
   
   // Get all rows from the main table associated with the contact list name
-  async getContacts(name) {
+  async getContacts(tableName) {
     try {
       const contacts = await new Promise((resolve, reject) => {
         const query = `SELECT * FROM ??;`;
 
-        connection.query(query, [name], (err, results) => {
+        connection.query(query, [tableName], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -53,12 +53,12 @@ class DbService {
   }
 
   // Get all rows from the numbers table associated with the contact name
-  async getContactNumbers(name, id) {
+  async getContactNumbers(tableName, id) {
     try {
       const contactNumbers = await new Promise((resolve, reject) => {
         const query = `SELECT * FROM ?? WHERE ContactId = ?;`;
 
-        connection.query(query, [`${name}Numbers`, id], (err, results) => {
+        connection.query(query, [`${tableName}Numbers`, id], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -73,12 +73,12 @@ class DbService {
   }
 
   // Get all rows from the numbers table associated with the contact name
-  async getContactEmails(name, id) {
+  async getContactEmails(tableName, id) {
     try {
       const contactEmails = await new Promise((resolve, reject) => {
         const query = `SELECT * FROM ?? WHERE ContactId = ?;`;
 
-        connection.query(query, [`${name}Emails`, id], (err, results) => {
+        connection.query(query, [`${tableName}Emails`, id], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -93,7 +93,7 @@ class DbService {
   }
 
   // Creates tables based on name that was given
-  async createList(name) {
+  async createList(tableName) {
     try {
       // Creates main table
       const list = await new Promise((resolve, reject) => {
@@ -108,7 +108,7 @@ class DbService {
                        Note VARCHAR(1000)
                       );`;
 
-        connection.query(query, [name], (err, results) => {
+        connection.query(query, [tableName], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -125,7 +125,7 @@ class DbService {
                        Number VARCHAR(100)
                       );`;
 
-        connection.query(query, [`${name}Numbers`], (err, results) => {
+        connection.query(query, [`${tableName}Numbers`], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -141,7 +141,7 @@ class DbService {
                        Email VARCHAR(100)
                       );`;
 
-        connection.query(query, [`${name}Emails`], (err, results) => {
+        connection.query(query, [`${tableName}Emails`], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -163,8 +163,8 @@ class DbService {
                        VALUES (?, ?, ?, ?, ?, ?, ?);`;
         
         connection.query(query, 
-          [contactInfo.listName, contactInfo.fileName, contactInfo.firstName, contactInfo.lastName, contactInfo.company,
-           contactInfo.birthday, contactInfo.address, contactInfo.note],
+          [contactInfo.ListName, contactInfo.AviPath, contactInfo.FirstName, contactInfo.LastName, contactInfo.Company,
+           contactInfo.Birthday, contactInfo.Address, contactInfo.Note],
           (err, result) => {
             if (err) reject(new Error(err.message));
             resolve(result);
@@ -175,13 +175,14 @@ class DbService {
       const insertId = defaultRow.insertId;
 
       // Iterates through phone number objects and adds to phone number table
-      const phoneNumberRows = contactInfo.phoneNumbers.map(async (number) => {
+      const phoneNumberRows = contactInfo.PhoneNumbers.map(async (number) => {
         return new Promise((resolve, reject) => {
           const query = `INSERT INTO ??
                           (ContactId, Type, Number)
                           VALUES (?, ?, ?);`;
           
-          connection.query(query, [`${contactInfo.listName}Numbers`, insertId, number.type, number.number], (err, result) => {
+          connection.query(query, [`${contactInfo.ListName}Numbers`, insertId, number.Type, number.Number], 
+          (err, result) => {
               if (err) reject(new Error(err.message));
               resolve(result);
           });
@@ -192,13 +193,100 @@ class DbService {
       await Promise.all(phoneNumberRows);
 
       // Iterates through email objects and adds to email table
-      const emailRows = contactInfo.emails.map(async (email) => {
+      const emailRows = contactInfo.Emails.map(async (email) => {
         return new Promise((resolve, reject) => {
           const query = `INSERT INTO ??
                           (ContactId, Email)
                           VALUES (?, ?);`;
           
-          connection.query(query, [`${contactInfo.listName}Emails`, insertId, email], (err, result) => {
+          connection.query(query, [`${contactInfo.ListName}Emails`, insertId, email.Email], (err, result) => {
+              if (err) reject(new Error(err.message));
+              resolve(result);
+          });
+        });
+      });
+
+      // Waits for all rows to be added before continuing
+      await Promise.all(emailRows);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Updates contact information to proper tables
+  async updateContact(contactInfo) {
+    try {
+      // Updates primary information to main table
+      await new Promise((resolve, reject) => {
+        const query = `UPDATE ?? SET
+                       AviPath = ?, 
+                       FirstName = ?, 
+                       LastName = ?, 
+                       Company = ?, 
+                       Birthday = ?, 
+                       Address = ?, 
+                       Note = ?
+                       WHERE ContactId = ?;`;
+        
+        connection.query(query, 
+          [contactInfo.ListName, contactInfo.AviPath, contactInfo.FirstName, contactInfo.LastName, contactInfo.Company,
+          contactInfo.Birthday, contactInfo.Address, contactInfo.Note, contactInfo.ContactId],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Delete row(s) from numbers table
+      await new Promise((resolve, reject) => {
+        const query = `DELETE FROM ?? WHERE ContactId = ?`;
+        
+        connection.query(query, [`${contactInfo.ListName}Numbers`, contactInfo.ContactId],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Iterates through phone number objects and adds to phone number table
+      const phoneNumberRows = contactInfo.PhoneNumbers.map(async (number) => {
+        return new Promise((resolve, reject) => {
+          const query = `INSERT INTO ??
+                          (ContactId, Type, Number)
+                          VALUES (?, ?, ?);`;
+          
+          connection.query(query, [`${contactInfo.ListName}Numbers`, contactInfo.ContactId, number.Type, number.Number], 
+          (err, result) => {
+              if (err) reject(new Error(err.message));
+              resolve(result);
+          });
+        });
+      });
+
+      // Waits for all rows to be added before continuing
+      await Promise.all(phoneNumberRows);
+
+      // Delete row(s) from emails table
+      await new Promise((resolve, reject) => {
+        const query = `DELETE FROM ?? WHERE ContactId = ?`;
+        
+        connection.query(query, [`${contactInfo.ListName}Emails`, contactInfo.ContactId],
+          (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Iterates through phone number objects and adds to phone number table
+      const emailRows = contactInfo.Emails.map(async (email) => {
+        console.log()
+        return new Promise((resolve, reject) => {
+          const query = `INSERT INTO ??
+                          (ContactId, Email)
+                          VALUES (?, ?);`;
+          
+          connection.query(query, [`${contactInfo.ListName}Emails`, contactInfo.ContactId, email.Email], 
+          (err, result) => {
               if (err) reject(new Error(err.message));
               resolve(result);
           });
@@ -212,14 +300,15 @@ class DbService {
     }
   }
   
-  // Deletes all rows relating to the contact from the tables and returns AviPath so contact picture can be deleted
-  async deleteContact(name, id) {
+  // Deletes all rows relating to the contact from the tables and 
+  // returns AviPath so contact picture can be deleted
+  async deleteContact(tableName, id) {
     try {
       // Get AviPath from db
       const aviPath = await new Promise((resolve, reject) => {
         const query = `SELECT AviPath FROM ?? WHERE ContactId = ?;`;
 
-        connection.query(query, [name, id], (err, results) => {
+        connection.query(query, [tableName, id], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -231,7 +320,7 @@ class DbService {
       await new Promise((resolve, reject) => {
         const query = `DELETE FROM ?? WHERE ContactId = ?`;
         
-        connection.query(query, [name, id],
+        connection.query(query, [tableName, id],
           (err, result) => {
             if (err) reject(new Error(err.message));
             resolve(result);
@@ -242,7 +331,7 @@ class DbService {
       await new Promise((resolve, reject) => {
         const query = `DELETE FROM ?? WHERE ContactId = ?`;
         
-        connection.query(query, [`${name}Numbers`, id],
+        connection.query(query, [`${tableName}Numbers`, id],
           (err, result) => {
             if (err) reject(new Error(err.message));
             resolve(result);
@@ -253,7 +342,7 @@ class DbService {
       await new Promise((resolve, reject) => {
         const query = `DELETE FROM ?? WHERE ContactId = ?`;
         
-        connection.query(query, [`${name}Emails`, id],
+        connection.query(query, [`${tableName}Emails`, id],
           (err, result) => {
             if (err) reject(new Error(err.message));
             resolve(result);

@@ -1,16 +1,26 @@
 import './current-contact.css';
 
+// Displays the current contact form and all of its functionality
 function CurrentContact(props) {
+  // Enables the add contact form's edit variation
+  function toggleEditContact() {
+    props.setEditingContact(true);
+    props.toggleCurrentContact();
+    props.toggleAddContact();
+  }
+
+  // Deletes contacts and hides current contact form
   const deleteContact = async () => {
-    await fetch(`http://localhost:4001/deleteContact/${props.displayName}/${props.contact.ContactId}`, {
-      headers: {
-        'Content-type': 'application/json'
-      },
-      method: 'DELETE',
-    });
+    if (window.confirm("Confirm deletion")) {
+      await fetch(`http://localhost:4001/deleteContact/${props.displayName}/${props.contact.ContactId}`, {
+        headers: {
+          'Content-type': 'application/json'
+        },
+        method: 'DELETE',
+      });
+    }
 
     props.toggleCurrentContact();
-    console.log('here');
   }
 
   return(
@@ -19,12 +29,12 @@ function CurrentContact(props) {
         {/* Container header */}
         <div className='current-contact-header'>
           <span className='current-back' onClick={() => props.toggleCurrentContact()}>Back</span>
-          <span className='current-edit'>Edit</span>
+          <span className='current-edit' onClick={() => toggleEditContact()}>Edit</span>
         </div>
 
         {/* Contact picture */}
         <div className='current-contact-pfp'>
-          <img src={`/uploads/${props.contact.AviPath}`} id='profile-picture' alt="" />
+          <img src={props.updatedPicture ? props.updatedPicture : `/uploads/${props.contact.AviPath}`} id='profile-picture' alt="" />
         </div>
 
         {/* Name & company container */}
@@ -57,6 +67,7 @@ function CurrentContact(props) {
 
         {/* Email address */}
         {props.contactEmails.map((email) => {
+          console.log(email);
           return(
             <div className='current-info-div'>
               <div className='current-info-contents'>

@@ -28,6 +28,9 @@ function Contact() {
   // Checks whether the current contacts form is displayed or not
   const [contactDisplayed, setContactDisplayed] = useState(false);
 
+  // Checks whether contact is being edited or not
+  const [editingContact, setEditingContact] = useState(false);
+
   // Immutable contacts list used to remember the original, non-filtered version
   const [contacts, setContacts] = useState(null);
 
@@ -36,9 +39,10 @@ function Contact() {
 
   // Store data for current contact
   const [contact, setContact] = useState(null);
+  const [updatedPicture, setUpdatedPicture] = useState(null);
   const [contactNumbers, setContactNumbers] = useState([]);
   const [contactEmails, setContactEmails] = useState([]);
-
+  
   // API call to server to get contacts data from database
   const getContacts = async () => {
     const response = await fetch(`http://localhost:4001/getContacts/${displayName}`);
@@ -148,7 +152,7 @@ function Contact() {
   // Filters contacts when search bar is used
   function filterContacts() {
     // Get value of search bar input field
-    const searchInput = document.querySelector('.search-field').value;
+    const searchInput = document.querySelector('.search-field').value.toLowerCase();
 
     const filteredContacts = contacts.filter((contact) => {
       // Uses these paramters for filtering
@@ -241,6 +245,11 @@ function Contact() {
       setAddContactDisplayed(true);
     } else {
       contacts.style.display = 'flex';
+
+      if (editingContact == true) {
+        setEditingContact(false);
+      }
+
       setAddContactDisplayed(false);
     }
   }
@@ -252,6 +261,7 @@ function Contact() {
     const topSection = document.querySelector('.contact-top');
     
     // If there is a valid entry parameter in the function call, then gather contact info
+    // Else clear updated picture variable to not conflict with other add contact uses
     if (entry != undefined) {
       // Gather phone number data
       const numberResponse = await fetch(`http://localhost:4001/getContactNumbers/${displayName}/${entry.ContactId}`);
@@ -263,8 +273,10 @@ function Contact() {
 
       // Store entry data
       setContact(entry);
-      setContactEmails(emailData);
       setContactNumbers(numberData);
+      setContactEmails(emailData);
+    } else {
+      setUpdatedPicture(null);
     }
 
     // Displays/hides other HTML components on page and displays/hides current contact form
@@ -280,7 +292,7 @@ function Contact() {
   }
 
   // Enables/disables editing for page header
-  function toggleEdit() {
+  function toggleHeaderEdit() {
     const header = document.querySelector('.contact-header');
 
     if (header.contentEditable === 'true') {
@@ -323,13 +335,25 @@ function Contact() {
     <>
       <div className='contact-wrapper'>
         {/* Display add contact form (hidden by default) */}
-        {addContactDisplayed && <AddContact toggleAddContact={toggleAddContact} displayName={displayName}></AddContact>}
+        {addContactDisplayed && 
+        <AddContact toggleAddContact={toggleAddContact} 
+                    toggleCurrentContact={toggleCurrentContact}
+                    editingContact={editingContact}
+                    setUpdatedPicture={setUpdatedPicture}
+                    displayName={displayName}
+                    contact={contact}
+                    contactNumbers={contactNumbers}
+                    contactEmails={contactEmails}>
+        </AddContact>}
 
         {/* Display current contact element (hidden by default) */}
         {contactDisplayed && 
-        <CurrentContact toggleCurrentContact={toggleCurrentContact} 
+        <CurrentContact toggleCurrentContact={toggleCurrentContact}
+                        toggleAddContact={toggleAddContact}
+                        setEditingContact={setEditingContact}
                         displayName={displayName}
                         contact={contact}
+                        updatedPicture={updatedPicture}
                         contactNumbers={contactNumbers}
                         contactEmails={contactEmails}>
         </CurrentContact>}
@@ -346,7 +370,7 @@ function Contact() {
 
           {/* Header */}
           <div className='contact-header-div'>
-            <img className='edit-button' onClick={toggleEdit} src="edit.png" alt="" />
+            <img className='edit-button' onClick={toggleHeaderEdit} src="edit.png" alt="" />
             <input className='contact-header' type="text" defaultValue={displayName}/>
           </div>
 
