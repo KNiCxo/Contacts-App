@@ -11,7 +11,7 @@ function CurrentContact(props) {
 
   // Deletes contacts and hides current contact form
   const deleteContact = async () => {
-    if (window.confirm("Confirm deletion")) {
+    if (window.confirm("Confirm deletion?")) {
       await fetch(`http://localhost:4001/deleteContact/${props.displayName}/${props.contact.ContactId}`, {
         headers: {
           'Content-type': 'application/json'
@@ -67,7 +67,6 @@ function CurrentContact(props) {
 
         {/* Email address */}
         {props.contactEmails.map((email) => {
-          console.log(email);
           return(
             <div className='current-info-div'>
               <div className='current-info-contents'>

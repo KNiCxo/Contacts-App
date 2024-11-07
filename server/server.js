@@ -32,6 +32,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
+// GET request for gathering all list names from the database
+app.get('/getLists', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  const result = db.getLists();
+
+  result
+  .then(data => res.json(data))
+  .catch(err => console.log(err));
+});
+
 // GET request for gathering all data from the main table associated with the contact list
 app.get('/getContacts/:name', (req, res) => {
   const db = dbService.getDbServiceInstance();
@@ -39,7 +49,7 @@ app.get('/getContacts/:name', (req, res) => {
 
   result
   .then(data => res.json(data))
-  .catch(err => console.log(err))
+  .catch(err => console.log(err));
 });
 
 // GET request for gathering all data from the numbers table associated with the contact name
@@ -60,6 +70,12 @@ app.get('/getContactEmails/:name/:contactId', (req, res) => {
   result
   .then(data => res.json(data))
   .catch(err => console.log(err))
+});
+
+// POST request for creating table that stores all list names
+app.post('/initListTable', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  db.initListTable();
 });
 
 // POST request for creating a list

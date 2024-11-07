@@ -31,6 +31,26 @@ class DbService {
   static getDbServiceInstance() {
     return instance ? instance : new DbService();
   }
+
+  // Get all list names from database
+  async getLists() {
+    try {
+      const lists = await new Promise((resolve, reject) => {
+        const query = `SELECT * FROM ListTable;`;
+
+        connection.query(query, (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          }
+          resolve(results);
+        });
+      });
+
+      return lists;
+    } catch (error) {
+      return '';
+    }
+  }
   
   // Get all rows from the main table associated with the contact list name
   async getContacts(tableName) {
@@ -87,6 +107,41 @@ class DbService {
       });
 
       return contactEmails;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Creates table that stores all list names with their contact counts
+  async initListTable() {
+    try {
+      // Creates main table
+      await new Promise((resolve, reject) => {
+        const query = `CREATE TABLE ListTable (
+                       ListId INT AUTO_INCREMENT PRIMARY KEY, 
+                       ListName VARCHAR(25), 
+                       ContactCount INT
+                       );`;
+
+        connection.query(query, (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          }
+          resolve(results);
+        });
+      });
+
+      // Creates initial list
+      await new Promise((resolve, reject) => {
+        const query = 'INSERT INTO ListTable (ListName, ContactCount) VALUES ("Contacts", 0);';
+
+        connection.query(query, (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          }
+          resolve(results);
+        });
+      });
     } catch (error) {
       console.log(error);
     }

@@ -13,9 +13,6 @@ function Contact() {
   // Enable navigation hook
   let navigate = useNavigate();
 
-  // Gather contact lists from local storage or set as an empty array
-  let contactLists = JSON.parse(localStorage.getItem('contactLists')) || [];
-
   // Get name of list from URL parameter
   let {listName} = useParams();
 
@@ -42,6 +39,37 @@ function Contact() {
   const [updatedPicture, setUpdatedPicture] = useState(null);
   const [contactNumbers, setContactNumbers] = useState([]);
   const [contactEmails, setContactEmails] = useState([]);
+
+  const getLists = async () => {
+    const response = await fetch('http://localhost:4001/getLists');
+    const data = await response.json();
+
+    // If a contact list doesn't exist, make a POST request to the server to create one and update contactLists
+    // Else, set displayName or redirect to error page
+    if (data == '') {
+      fetch('http://localhost:4001/initListTable', {
+        method: 'POST'
+      });
+
+      fetch(`http://localhost:4001/createList/Contacts`, {
+        method: 'POST'
+      });
+
+      setDisplayName('Contacts');
+    } else {
+      // If URL doesn't have a param, use first contact lists in array
+      // Else if URL doesn't have a param, use first contact list in array
+      // Else set displayName equal to URL param
+      if (displayName === undefined && data.length > 0) {
+        console.log('here');
+        setDisplayName(data[0].ListName);
+      } else if (!data.some(e => e.ListName === displayName)) {
+        navigate('/error');
+      } else {
+        setDisplayName(listName);
+      }
+    } 
+  }
   
   // API call to server to get contacts data from database
   const getContacts = async () => {
@@ -309,23 +337,12 @@ function Contact() {
   }
 
   useEffect(() => {
-    // If a contact list doesn't exist, make a POST request to the server to create one and update local storage
-    // Else if URL doesn't have a param, use first contact lists in array
-    // Else if URL param does not exist in contact lists, then navigate to error page
-    if (contactLists.length == 0) {
-      fetch('http://localhost:4001/createList/Contacts', {
-        method: 'POST'
-      });
-      
-      localStorage.setItem('contactLists', JSON.stringify([{name: 'Contacts', count: 0}]));
-      setDisplayName('Contacts');
-    } else if (displayName === undefined) {
-      setDisplayName(contactLists[0].name);
-    } else if (!contactLists.some(e => e.name === displayName)) {
-      navigate('/error');
-    }
+    // Get contact lists and set display name or redirect to error page
+    getLists();
+  }, []);
 
-    // Get contats from database through the server
+  useEffect(() => {
+    // Get contacts from database through the server
     if (displayName) {
       getContacts();
     }
