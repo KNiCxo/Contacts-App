@@ -151,7 +151,7 @@ class DbService {
   async createList(tableName) {
     try {
       // Creates main table
-      const list = await new Promise((resolve, reject) => {
+      await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ?? (
                        ContactId INT AUTO_INCREMENT PRIMARY KEY,
                        AviPath VARCHAR(255),
@@ -172,7 +172,7 @@ class DbService {
       });
 
       // Creates table for phone numbers
-      const listNumbers = await new Promise((resolve, reject) => {
+      await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ?? (
                        NumberId INT AUTO_INCREMENT PRIMARY KEY,
                        ContactId INT,
@@ -189,7 +189,7 @@ class DbService {
       });
 
       // Creates table for email
-      const listEmails = await new Promise((resolve, reject) => {
+      await new Promise((resolve, reject) => {
         const query = `CREATE TABLE ?? (
                        EmailId INT AUTO_INCREMENT PRIMARY KEY,
                        ContactId INT,
@@ -197,6 +197,20 @@ class DbService {
                       );`;
 
         connection.query(query, [`${tableName}Emails`], (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          }
+          resolve(results);
+        });
+      });
+
+       // Creates table for email
+       await new Promise((resolve, reject) => {
+        const query = `INSERT INTO ??
+                       (ListName, ContactCount)
+                       VALUES (?, 0);`;
+
+        connection.query(query, ['ListTable', tableName], (err, results) => {
           if (err) {
             reject(new Error(err.message));
           }
@@ -350,6 +364,33 @@ class DbService {
 
       // Waits for all rows to be added before continuing
       await Promise.all(emailRows);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Deletes list from database
+  async deleteList(tableName) {
+    try {
+      // Delete entry from ListTable
+      await new Promise((resolve, reject) => {
+        const query = `DELETE from ListTable WHERE ListName = ?`;
+
+        connection.query(query, [tableName], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      });
+
+      // Delete main, numbers, and emails tables
+      await new Promise((resolve, reject) => {
+        const query = `DROP TABLE ??, ??, ??`;
+
+        connection.query(query, [tableName, `${tableName}Numbers`, `${tableName}Emails`], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      });
     } catch (error) {
       console.log(error);
     }

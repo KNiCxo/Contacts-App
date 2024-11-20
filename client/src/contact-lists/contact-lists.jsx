@@ -8,6 +8,7 @@ import './contact-lists.css';
 function ContactList() {
   // Stores all contact lists as an array
   const [contactLists, setContactLists] = useState([]);
+  const [addElementDisplayed, setAddElementDisplayed] = useState(false);
 
   // Sends a POST request to the server to create a new table in the database that will
   // store all contact lists and their contact counts
@@ -17,28 +18,19 @@ function ContactList() {
     });
   }
 
+  // Gets names of lists
   const getLists = async () => {
     const response = await fetch('http://localhost:4001/getLists');
     const data = await response.json();
+
+    console.log(data);
 
     if (data == '') {
       initListTable();
       createList('Contacts');
     } else {
-      console.log(data);
       setContactLists(data);
     }
-  }
-  
-  // Sends a POST request to the server to create a new list in
-  // the database and updates contact lists
-  const createList = async (name) => {
-    fetch(`http://localhost:4001/createList/${name}`, {
-      method: 'POST'
-    });
-    
-    const newContactLists = [...contactLists, {ListName: name, ContactCount: 0}];
-    setContactLists(newContactLists);
   }
 
   // Enable/disables editing of list entries
@@ -51,9 +43,50 @@ function ContactList() {
     }
   }
  
+  // Enables/disabled add element
+  function toggleAdd() {
+    const addElement = document.querySelector('.add-list');
+    const inputElement = document.querySelector('.add-list-input');
+    addElement.style.display = window.getComputedStyle(addElement).display === 'none' ? 'flex' : 'none';
+    inputElement.value = '';
+    setAddElementDisplayed(addElementDisplayed ? false : true);
+  }
+
+  // Gets name from add list input and catches any bad cases
+  function addList() {
+    const listName = document.querySelector('.add-list-input').value;
+
+    if (listName == '' || contactLists.some(list => list.ListName == listName)) {
+      return;
+    }
+
+    createList(listName);
+    toggleAdd();
+  }
+
+
+  // Sends a POST request to the server to create a new list in
+  // the database and updates contact lists
+  const createList = async (name) => {
+    fetch(`http://localhost:4001/createList/${name}`, {
+      method: 'POST'
+    });
+    
+    const newContactLists = [...contactLists, {ListName: name, ContactCount: 0}];
+    setContactLists(newContactLists);
+  }
+
   // Deletes selected list entry
-  function deleteEntry(name, index) {
+  const deleteEntry = async (name, index) => {
+    if (contactLists.length <= 1) {
+      return;
+    }
+
     if (confirm(`Are you sure you want to delete ${name}?`) == true) {
+      fetch(`http://localhost:4001/deleteList/${name}`, {
+        method: 'DELETE'
+      });
+
       const newContactLists = contactLists.filter((_, i) => index != i);
       setContactLists(newContactLists); 
     }
@@ -70,7 +103,7 @@ function ContactList() {
             <span className='entry-name'>{list.ListName}</span>
             <span className='entry-count'>{list.ContactCount}</span>
           </Link>
-          <img className='remove-button' onClick={() => deleteEntry(list.name, index)} src="remove.png" alt=""/>
+          <img className='remove-button' onClick={() => deleteEntry(list.ListName, index)} src="remove.png" alt=""/>
         </div>
       )}
       </>
@@ -79,9 +112,9 @@ function ContactList() {
 
   // If there are no lists, then create a default one
   useEffect(() => {
+    console.log('getting lists');
     getLists();
   }, []);
-
 
   return(
     <>
@@ -89,11 +122,23 @@ function ContactList() {
         {/* Header buttons */}
         <div className='lists-header-buttons'>
           <span onClick={toggleEdits}>Edit</span>
-          <span>Add List</span>
+          <span onClick={() => !addElementDisplayed && toggleAdd()}>Add List</span>
         </div>
 
         {/* Header */}
         <h1 className='lists-header'>Lists</h1>
+
+        {/* Add list element */}
+        <div className='add-list'>
+            <div className='add-list-input-container'>
+              <input className='add-list-input' type="text" />
+            </div>
+
+            <div className='add-list-buttons'>
+              <button className='add-list-cancel' onClick={toggleAdd}>Cancel</button>
+              <button className='add-list-confirm' onClick={addList}>Add</button>
+            </div>
+        </div>
 
         {/* List entries */}
         {contactLists.length > 0 && displayLists()}

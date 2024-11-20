@@ -73,3 +73,56 @@
 .remove-button:hover {
   cursor: pointer;
 }
+
+.add-list {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  background-color: rgb(42, 38, 38);
+  z-index: 100;
+  position: fixed;
+  top: 250px;
+  left: 0;
+  right: 0;
+  width: 80%;
+  height: 100px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.add-list-input-container {
+  margin-bottom: 20px;
+}
+
+.add-list-input {
+  background-color: rgb(42, 38, 38);
+  width: 150px;
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid white;
+  outline: none;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+
+.add-list-cancel, .add-list-confirm {
+  background-color: rgb(239, 238, 238);
+  border: none;
+  border-radius: 4px;
+  height: 25px;
+  width: 70px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: manrope;
+}
+
+.add-list-cancel:hover, .add-list-confirm:hover {
+  cursor: pointer;
+  background-color: white;
+}
+
+.add-list-cancel {
+  margin-right: 15px;
+}

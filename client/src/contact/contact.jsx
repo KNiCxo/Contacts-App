@@ -61,7 +61,6 @@ function Contact() {
       // Else if URL doesn't have a param, use first contact list in array
       // Else set displayName equal to URL param
       if (displayName === undefined && data.length > 0) {
-        console.log('here');
         setDisplayName(data[0].ListName);
       } else if (!data.some(e => e.ListName === displayName)) {
         navigate('/error');

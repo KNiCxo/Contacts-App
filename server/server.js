@@ -108,6 +108,12 @@ app.post('/addContact', (req, res) => {
   res.status(200).send('Contact added successfully');
 });
 
+// DELETE request for removing contact list from SQL database
+app.delete('/deleteList/:name', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  db.deleteList(req.params.name);
+})
+
 // DELETE request for deleting contact information from SQL database
 app.delete('/deleteContact/:name/:contactId', (req, res) => {
   const db = dbService.getDbServiceInstance();
