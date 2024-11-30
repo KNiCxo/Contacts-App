@@ -23,8 +23,6 @@ function ContactList() {
     const response = await fetch('http://localhost:4001/getLists');
     const data = await response.json();
 
-    console.log(data);
-
     if (data == '') {
       initListTable();
       createList('Contacts');
@@ -63,7 +61,6 @@ function ContactList() {
     createList(listName);
     toggleAdd();
   }
-
 
   // Sends a POST request to the server to create a new list in
   // the database and updates contact lists
@@ -112,7 +109,6 @@ function ContactList() {
 
   // If there are no lists, then create a default one
   useEffect(() => {
-    console.log('getting lists');
     getLists();
   }, []);
 
@@ -131,7 +127,7 @@ function ContactList() {
         {/* Add list element */}
         <div className='add-list'>
             <div className='add-list-input-container'>
-              <input className='add-list-input' type="text" />
+              <input className='add-list-input' type="text" placeholder='Enter Name'/>
             </div>
 
             <div className='add-list-buttons'>

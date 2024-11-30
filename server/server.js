@@ -117,7 +117,7 @@ app.delete('/deleteList/:name', (req, res) => {
 // DELETE request for deleting contact information from SQL database
 app.delete('/deleteContact/:name/:contactId', (req, res) => {
   const db = dbService.getDbServiceInstance();
-  const result = db.deleteContact(req.params.name, req.params.contactId);
+  const result = db.deleteContact(req.params.name, req.params.contactId, req.body);
 
   // Delete file based on AviPath
   result

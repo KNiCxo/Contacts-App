@@ -17,6 +17,7 @@ function CurrentContact(props) {
           'Content-type': 'application/json'
         },
         method: 'DELETE',
+        body: JSON.stringify({ListCount: props.listCount})
       });
     }
 

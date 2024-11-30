@@ -359,7 +359,8 @@ function Contact() {
                     displayName={displayName}
                     contact={contact}
                     contactNumbers={contactNumbers}
-                    contactEmails={contactEmails}>
+                    contactEmails={contactEmails}
+                    listCount={contacts.length}>
         </AddContact>}
 
         {/* Display current contact element (hidden by default) */}
@@ -371,7 +372,8 @@ function Contact() {
                         contact={contact}
                         updatedPicture={updatedPicture}
                         contactNumbers={contactNumbers}
-                        contactEmails={contactEmails}>
+                        contactEmails={contactEmails}
+                        listCount={contacts.length}>
         </CurrentContact>}
         
         <div className='contact-top'>

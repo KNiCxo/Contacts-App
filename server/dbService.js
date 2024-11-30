@@ -277,6 +277,18 @@ class DbService {
 
       // Waits for all rows to be added before continuing
       await Promise.all(emailRows);
+
+      // Increment list count
+      await new Promise ((resolve, reject) => {
+        const query = `UPDATE ListTable SET
+                       ContactCount = ?
+                       WHERE ListName = ?;`;
+        
+        connection.query(query, [contactInfo.ListCount + 1, contactInfo.ListName], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      })
     } catch (error) {
       console.log(error);
     }
@@ -398,7 +410,7 @@ class DbService {
   
   // Deletes all rows relating to the contact from the tables and 
   // returns AviPath so contact picture can be deleted
-  async deleteContact(tableName, id) {
+  async deleteContact(tableName, id, listData) {
     try {
       // Get AviPath from db
       const aviPath = await new Promise((resolve, reject) => {
@@ -444,6 +456,18 @@ class DbService {
             resolve(result);
           });
       });
+
+      // Decrement list count
+      await new Promise ((resolve, reject) => {
+        const query = `UPDATE ListTable SET
+                       ContactCount = ?
+                       WHERE ListName = ?;`;
+        
+        connection.query(query, [listData.ListCount - 1, tableName], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      })
 
       // Return AviPath
       return aviPath;

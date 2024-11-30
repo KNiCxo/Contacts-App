@@ -177,7 +177,8 @@ function AddContact(props) {
           Address: address,
           PhoneNumbers: phoneNumbers,
           Emails: emails,
-          Note: note
+          Note: note, 
+          ListCount: props.listCount
         }
         
         await fetch('http://localhost:4001/addContact', {
