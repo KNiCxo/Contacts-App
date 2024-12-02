@@ -4,6 +4,11 @@
   width: 95%;
 }
 
+/* Styling for page header */
+.lists-header {
+  font-size: 32px;
+}
+
 /* Styling for header buttons */
 .lists-header-buttons {
   display: flex;
@@ -56,10 +61,16 @@
   margin: 0 12px;
 }
 
+/* Styling for entry name */
+.entry-name {
+  font-size: 16px;
+}
+
 /* Styling for entry contact count */
 .entry-count {
   margin-left: auto;
   padding-right: 20px;
+  font-size: 16px;
 }
 
 /* Styling for entry remove button */
@@ -74,6 +85,7 @@
   cursor: pointer;
 }
 
+/* Styling for add list element */
 .add-list {
   display: none;
   flex-direction: column;
@@ -91,10 +103,12 @@
   text-align: center;
 }
 
+/* Styling for add list input container */
 .add-list-input-container {
   margin-bottom: 20px;
 }
 
+/* Styling for add list input field */
 .add-list-input {
   background-color: rgb(42, 38, 38);
   width: 150px;
@@ -107,6 +121,7 @@
   text-align: center;
 }
 
+/* Styling for add list cancel and confirm buttons */
 .add-list-cancel, .add-list-confirm {
   background-color: rgb(239, 238, 238);
   border: none;
@@ -125,4 +140,80 @@
 
 .add-list-cancel {
   margin-right: 15px;
+}
+
+/* Responsive styling 800px width */
+@media only screen and (min-width: 800px) {
+  /* Styling for page header */
+  .lists-header {
+    margin: 20px 0 40px;
+    font-size: 55px;
+  }
+
+  /* Styling for header buttons */
+  .lists-header-buttons {
+    padding: 20px 0 5px;
+    font-size: 40px;
+    font-weight: 400;
+  }
+
+  /* Styling for list entry div */
+  .entry-container {
+    margin-bottom: 18px;
+  }
+
+  /* Styling for list entry link */
+  .entry-link {
+    height: 85px;
+  }
+
+  /* Styling for entry img */
+  .entry-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 20px;
+  }
+
+  /* Styling for entry name */
+  .entry-name {
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  /* Styling for entry contact count */
+  .entry-count {
+    padding-right: 40px;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  /* Styling for entry remove button */
+  .remove-button {
+    width: 50px;
+    height: 50px;
+    margin-left: 25px;
+  }
+
+  /* Styling for add list element */
+  .add-list {
+    top: 450px;
+    width: 50%;
+    height: 125px;
+    border: solid 4px rgb(29, 27, 27);
+  }
+
+  /* Styling for add list input field */
+  .add-list-input {
+    width: 200px;
+    height: 30px;
+    font-size: 23px;
+  }
+
+  /* Styling for add list cancel and confirm buttons */
+  .add-list-cancel, .add-list-confirm {
+    height: 32px;
+    width: 90px;
+    font-size: 18px;
+    font-weight: 500;
+  }
 }
