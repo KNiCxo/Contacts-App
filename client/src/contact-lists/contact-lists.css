@@ -4,11 +4,6 @@
   width: 95%;
 }
 
-/* Styling for page header */
-.lists-header {
-  font-size: 32px;
-}
-
 /* Styling for header buttons */
 .lists-header-buttons {
   display: flex;
@@ -20,6 +15,11 @@
 
 .lists-header-buttons span:hover {
   cursor: pointer;
+}
+
+/* Styling for page header */
+.lists-header {
+  font-size: 32px;
 }
 
 /* Styling for list entry div */
@@ -144,17 +144,17 @@
 
 /* Responsive styling 800px width */
 @media only screen and (min-width: 800px) {
-  /* Styling for page header */
-  .lists-header {
-    margin: 20px 0 40px;
-    font-size: 55px;
-  }
-
   /* Styling for header buttons */
   .lists-header-buttons {
     padding: 20px 0 5px;
     font-size: 40px;
     font-weight: 400;
+  }
+
+  /* Styling for page header */
+  .lists-header {
+    margin: 20px 0 40px;
+    font-size: 55px;
   }
 
   /* Styling for list entry div */
