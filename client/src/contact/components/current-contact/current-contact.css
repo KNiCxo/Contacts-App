@@ -71,7 +71,7 @@
   display: flex;
   flex-direction: column;
   background-color: rgb(38, 36, 33);
-  padding: 5px 15px;
+  padding: 8px 18px;
   border-radius: 7px;
 }
 
@@ -84,6 +84,7 @@
 /* Styling for current contact info */
 .current-info {
   color: rgb(13, 124, 244);
+  font-size: 15px;
 }
 
 /* Styling for current contact birthday */
@@ -93,13 +94,14 @@
   border: none;
   outline: none;
   margin-left: -5px;
+  font-size: 15px;
 }
 
 /* Styling for current conntact note */
 .current-note {
+  padding-bottom: 30px;
   font-size: 15px;
   font-weight: 300;
-  padding-bottom: 30px;
 }
 
 /* Styling for current contact delete button div */
@@ -126,4 +128,68 @@
 
 .delete-contact:active {
   background-color: rgb(49, 44, 44);
+}
+
+@media only screen and (min-width: 800px) {
+  /* Styling for current contact header */
+  .current-contact-header {
+    font-size: 35px;
+    padding: 20px 30px 25px;
+  }
+
+  /* Styling for current contact picture */
+  .current-contact-pfp img {
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+  }
+
+  /* Styling for current contact name */
+  .current-name {
+    font-size: 35px;
+  }
+
+  /* Styling for current contact company */
+  .current-company {
+    font-size: 25px;
+  }
+
+  /* Styling for current contact information containers */
+  .current-info-div {
+    margin: 0 auto 15px;
+    width: 80%;
+  }
+
+  /* Styling for the contents within the current contact info containers */
+  .current-info-contents {
+    padding: 7px 15px;
+  }
+  
+  /* Styling for current contact info labels */
+  .current-info-label {
+    font-size: 20px;
+  }
+
+  /* Styling for current contact info */
+  .current-info {
+    font-size: 22px;
+  }
+
+  /* Styling for current contact birthday */
+  .current-birthday {
+    font-size: 22px;
+  }
+
+  /* Styling for current conntact note */
+  .current-note {
+    font-size: 22px;
+  }
+
+  /* Styling for current contact delete button */
+  .delete-contact {
+    width: 80%;
+    height: 60px;
+    margin: 0 auto;
+    font-size: 25px;
+  }
 }

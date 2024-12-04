@@ -19,9 +19,9 @@ function CurrentContact(props) {
         method: 'DELETE',
         body: JSON.stringify({ListCount: props.listCount})
       });
-    }
 
-    props.toggleCurrentContact();
+      props.toggleCurrentContact();
+    }
   }
 
   return(
