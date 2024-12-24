@@ -1,0 +1,100 @@
+@media only screen and (min-width: 800px) {
+  /* Styling for add contact container */
+  .add-contact {
+    margin: 30px auto 0 auto;
+  }
+
+  /* Styling for add contact header div */
+  .add-contact-header {
+    justify-content: space-between;
+    font-size: 35px;
+    padding: 30px 30px 35px;
+  }
+
+  /* Styling for add contact profile picture div */
+  .add-contact-pfp {
+    margin-bottom: 35px;
+  }
+
+  /* Styling for add contact profile picture */
+  .add-contact-pfp img {
+    width: 215px;
+    height: 215px;
+    margin-bottom: 13px;
+    border-radius: 125px;
+  }
+
+  /* Styling for "add photo" button */
+  .add-contact-pfp span {
+    font-size: 30px;
+  }
+
+  /* Styling for add contact input fields */
+  .add-contact-input {
+    font-size: 27px;
+    margin-left: 18px;
+    padding: 22px 0;
+  }
+
+  /* Styling for name/company div */
+  .name-company-div, .birthday-address-div {
+    margin-bottom: 60px;
+  }
+
+  /* Styling for birthday input field */
+  #birthday {
+    padding-right: 25px;
+  }
+
+  /* Styling for "add phone"/"add email" divs */
+  .address-div {
+    padding: 11px 12px;
+    margin-bottom: 60px;
+  }
+
+  /* Styling for "add address" img */
+  .add-address {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Styling for "add phone"/"add email" labels */
+  .add-contact-label {
+    font-size: 27px;
+  }
+
+  /* Styling for "remove address" img */
+  .remove-address {
+    width: 40px;
+    height: 40px;
+    margin: 0 20px 0 16px;
+  }
+
+  /* Styling for phone number type select element */
+  .address-select {
+    font-size: 26px;
+  }
+
+  /* Styling for arrow next to select element */
+  .select-arrow {
+    font-size: 35px;
+  }
+
+  /* Styling for notes div */
+  .notes-div {
+    margin-bottom: 60px;
+  }
+
+  /* Styling for notes header */
+  .notes-div span {
+    font-size: 25px;
+  }
+
+  /* Styling for notes textarea */
+  .notes-div textarea {
+    font-size: 25px;
+    line-height: 55px;
+    height: 250px;
+    padding: 10px 12px;
+  }
+}
