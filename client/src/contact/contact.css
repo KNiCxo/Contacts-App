@@ -110,6 +110,7 @@ select {
   background-color: rgb(49, 44, 44);
 }
 
+/* Responsive styling for 800px width */
 @media only screen and (min-width: 800px) {
   /* Styling for header buttons div */
   .contact-header-buttons {
@@ -161,5 +162,29 @@ select {
     padding: 12px;
     font-size: 24px;
     border-bottom: solid rgb(93, 90, 90, 0.66) 0.5px;
+  }
+}
+
+/* Responsive styling for 1000px width */
+@media only screen and (min-width: 1000px) {
+  /* Wrapper for page */
+  .contact-wrapper {
+    width: 75%;
+  }
+}
+
+/* Responsive styling for 1200px width */
+@media only screen and (min-width: 1200px) {
+  /* Wrapper for page */
+  .contact-wrapper {
+    width: 65%;
+  }
+}
+
+/* Responsive styling for 1400px width */
+@media only screen and (min-width: 1400px) {
+  /* Wrapper for page */
+  .contact-wrapper {
+    width: 55%;
   }
 }

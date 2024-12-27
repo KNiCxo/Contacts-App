@@ -142,7 +142,7 @@
   margin-right: 15px;
 }
 
-/* Responsive styling 800px width */
+/* Responsive styling for 800px width */
 @media only screen and (min-width: 800px) {
   /* Styling for header buttons */
   .lists-header-buttons {
@@ -196,7 +196,7 @@
 
   /* Styling for add list element */
   .add-list {
-    top: 450px;
+    top: 325px;
     width: 50%;
     height: 125px;
     border: solid 4px rgb(29, 27, 27);
@@ -215,5 +215,29 @@
     width: 90px;
     font-size: 18px;
     font-weight: 500;
+  }
+}
+
+/* Responsive styling for 1000px width */
+@media only screen and (min-width: 1000px) {
+  /* Page wrapper */
+  .lists-wrapper {
+    width: 75%;
+  }
+}
+
+/* Responsive styling for 1200px width */
+@media only screen and (min-width: 1200px) {
+  /* Page wrapper */
+  .lists-wrapper {
+    width: 65%;
+  }
+}
+
+/* Responsive styling for 1400px width */
+@media only screen and (min-width: 1400px) {
+  /* Page wrapper */
+  .lists-wrapper {
+    width: 55%;
   }
 }

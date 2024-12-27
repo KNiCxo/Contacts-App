@@ -1,3 +1,4 @@
+/* Responsive styling for 800px */
 @media only screen and (min-width: 800px) {
   /* Styling for add contact container */
   .add-contact {
@@ -96,5 +97,29 @@
     line-height: 55px;
     height: 250px;
     padding: 10px 12px;
+  }
+}
+
+/* Responsive styling for 1000px width */
+@media only screen and (min-width: 1000px) {
+  /* Styling for add contact element container */
+  .add-contact {
+    width: 75%;
+  }
+}
+
+/* Responsive styling for 1200px width */
+@media only screen and (min-width: 1200px) {
+  /* Styling for add contact element container */
+  .add-contact {
+    width: 65%;
+  }
+}
+
+/* Responsive styling for 1400px width */
+@media only screen and (min-width: 1400px) {
+  /* Styling for add contact element container */
+  .add-contact {
+    width: 55%;
   }
 }

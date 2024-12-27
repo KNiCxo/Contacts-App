@@ -193,3 +193,28 @@
     font-size: 28px;
   }
 }
+
+/* Responsive styling for 1000px width */
+@media only screen and (min-width: 1000px) {
+  /* Styling for current contact element container */
+  .current-contact {
+    margin: 0 auto;
+    width: 75%;
+  }
+}
+
+/* Responsive styling for 1200px width */
+@media only screen and (min-width: 1200px) {
+  /* Styling for current contact element container */
+  .current-contact {
+    width: 65%;
+  }
+}
+
+/* Responsive styling for 1400px width */
+@media only screen and (min-width: 1400px) {
+  /* Styling for current contact element container */
+  .current-contact {
+    width: 55%;
+  }
+}
