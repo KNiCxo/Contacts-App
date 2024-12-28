@@ -9,6 +9,7 @@ function ContactList() {
   // Stores all contact lists as an array
   const [contactLists, setContactLists] = useState([]);
   const [addElementDisplayed, setAddElementDisplayed] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   // Sends a POST request to the server to create a new table in the database that will
   // store all contact lists and their contact counts
@@ -39,6 +40,8 @@ function ContactList() {
       removeButtons[0].contentEditable = true;
       removeButtons[i].style.display = window.getComputedStyle(removeButtons[i]).display === 'none' ? 'flex' : 'none';
     }
+
+    setIsEditing(isEditing ? false : true);
   }
  
   // Enables/disabled add element
@@ -117,8 +120,8 @@ function ContactList() {
       <div className='lists-wrapper'>
         {/* Header buttons */}
         <div className='lists-header-buttons'>
-          <span onClick={toggleEdits}>Edit</span>
-          <span onClick={() => !addElementDisplayed && toggleAdd()}>Add List</span>
+          <span onClick={!addElementDisplayed && toggleEdits}>Edit</span>
+          <span onClick={() => !addElementDisplayed && !isEditing && toggleAdd()}>Add List</span>
         </div>
 
         {/* Header */}

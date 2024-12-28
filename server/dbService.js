@@ -294,6 +294,53 @@ class DbService {
     }
   }
 
+
+  async updateListName(newName, oldName) {
+    try {
+      // Updates name in ListTable
+      await new Promise((resolve, reject) => {
+        const query = `UPDATE ListTable SET ListName = ? WHERE ListName = ?;`;
+        
+        connection.query(query, [newName, oldName], (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Update main table
+      await new Promise((resolve, reject) => {
+        const query = `RENAME TABLE ?? to ??;`;
+        
+        connection.query(query, [oldName, newName], (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Update emails table
+      await new Promise((resolve, reject) => {
+        const query = `RENAME TABLE ?? to ??;`;
+        
+        connection.query(query, [`${oldName}Emails`, `${newName}Emails`], (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+
+      // Update phone numbers table
+      await new Promise((resolve, reject) => {
+        const query = `RENAME TABLE ?? to ??;`;
+        
+        connection.query(query, [`${oldName}Numbers`, `${newName}Numbers`], (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+          });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // Updates contact information to proper tables
   async updateContact(contactInfo) {
     try {

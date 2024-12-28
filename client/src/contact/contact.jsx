@@ -319,13 +319,23 @@ function Contact() {
   }
 
   // Enables/disables editing for page header
-  function toggleHeaderEdit() {
+  const toggleHeaderEdit = async () => {
     const header = document.querySelector('.contact-header');
-
     if (header.contentEditable === 'true') {
       header.style.outline = 'none';
       header.contentEditable = false;
       header.disabled = true;
+    
+      await fetch(`http://localhost:4001/updateListName`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',  // Add Content-Type header
+        },
+        body: JSON.stringify({
+          NewName: header.value,
+          OldName: displayName
+        })
+      });
     } else {
       header.style.outline = '1px solid white';
       header.contentEditable = true;

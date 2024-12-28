@@ -84,6 +84,11 @@ app.post('/createList/:name', (req, res) => {
   db.createList(req.params.name);
 });
 
+app.post('/updateListName', (req, res) => {
+  const db = dbService.getDbServiceInstance();
+  db.updateListName(req.body.NewName, req.body.OldName);
+});
+
 // POST request for uploading pictures
 app.post('/uploadPicture', upload.single('file'), (req, res) => {
   res.json(req.file);
