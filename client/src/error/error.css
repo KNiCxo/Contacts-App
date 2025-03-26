@@ -19,7 +19,7 @@
 /* Styling for link that directs to home page */
 .home-link {
   color: rgb(29, 112, 189);
-  font-size: 40px;
+  font-size: 22px;
 }
 
 @media only screen and (min-width: 800px) {
@@ -30,13 +30,13 @@
 
   /* Styling for page label */
   .error-label {
-    font-size: 75px;
+    font-size: 40px;
     margin-bottom: 5px;
   }
 
   /* Styling for error message */
   .error-message {
-    font-size: 60px;
+    font-size: 35px;
     margin-bottom: 20px;
   }
 }

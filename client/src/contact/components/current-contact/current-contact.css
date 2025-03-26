@@ -70,7 +70,7 @@
 .current-info-contents {
   display: flex;
   flex-direction: column;
-  background-color: rgb(38, 36, 33);
+  background-color: rgb(37, 40, 43);
   padding: 8px 18px;
   border-radius: 7px;
 }
@@ -90,7 +90,7 @@
 /* Styling for current contact birthday */
 .current-birthday {
   color: rgb(13, 124, 244);
-  background-color: rgb(38, 36, 33);
+  background-color: rgb(37, 40, 43);
   border: none;
   outline: none;
   margin-left: -5px;
@@ -115,7 +115,7 @@
   margin: 0px 20px 15px;
   height: 45px;
   color: red;
-  background-color: rgb(38, 36, 33);
+  background-color: rgb(37, 40, 43);
   border: none;
   border-radius: 7px;
   font-size: 17px;
@@ -127,37 +127,38 @@
 }
 
 .delete-contact:active {
-  background-color: rgb(49, 44, 44);
+  background-color: rgb(44, 48, 52);
 }
 
 @media only screen and (min-width: 800px) {
   /* Styling for current contact header */
   .current-contact-header {
-    font-size: 35px;
-    padding: 20px 30px 25px;
+    font-size: 27px;
+    padding: 20px 80px 25px;
   }
 
   /* Styling for current contact picture */
   .current-contact-pfp img {
-    width: 190px;
-    height: 190px;
+    width: 130px;
+    height: 130px;
     border-radius: 100px;
   }
 
   /* Styling for current contact name */
   .current-name {
-    font-size: 38px;
+    font-size: 27px;
   }
 
   /* Styling for current contact company */
   .current-company {
-    font-size: 30px;
+    font-size: 19px;
   }
 
   /* Styling for current contact information containers */
   .current-info-div {
     margin: 0 auto 18px;
-    width: 80%;
+    width: 65%;
+    max-width: 602.48px;
   }
 
   /* Styling for the contents within the current contact info containers */
@@ -167,30 +168,30 @@
   
   /* Styling for current contact info labels */
   .current-info-label {
-    font-size: 22px;
+    font-size: 16px;
   }
 
   /* Styling for current contact info */
   .current-info {
-    font-size: 26px;
+    font-size: 18px;
   }
 
   /* Styling for current contact birthday */
   .current-birthday {
-    font-size: 26px;
+    font-size: 18px;
   }
 
   /* Styling for current conntact note */
   .current-note {
-    font-size: 26px;
+    font-size: 18px;
   }
 
   /* Styling for current contact delete button */
   .delete-contact {
-    width: 80%;
-    height: 75px;
+    width: 65%;
+    height: 55px;
     margin: 0 auto 35px;
-    font-size: 28px;
+    font-size: 19px;
   }
 }
 

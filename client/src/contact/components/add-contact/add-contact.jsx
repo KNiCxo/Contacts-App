@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 
 import './add-contact.css';
-import './add-contact-res.css';
 
 // Displays the add contact form and all of its functionality
 function AddContact(props) {

@@ -40,7 +40,7 @@
   height: 50px;
   color: white;
   text-decoration: none;
-  background-color: rgb(42, 38, 38);
+  background-color: rgb(37, 40, 43);
   border-radius: 10px;
 }
 
@@ -91,7 +91,7 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  background-color: rgb(42, 38, 38);
+  background-color: rgb(37, 40, 43);
   z-index: 100;
   position: fixed;
   top: 250px;
@@ -110,7 +110,7 @@
 
 /* Styling for add list input field */
 .add-list-input {
-  background-color: rgb(42, 38, 38);
+  background-color: rgb(37, 40, 43);
   width: 150px;
   height: 30px;
   border: none;
@@ -144,17 +144,22 @@
 
 /* Responsive styling for 800px width */
 @media only screen and (min-width: 800px) {
+  /* Page wrapper */
+  .lists-wrapper {
+    max-width: 674.9px;
+  }
+
   /* Styling for header buttons */
   .lists-header-buttons {
     padding: 20px 0 5px;
-    font-size: 40px;
+    font-size: 28px;
     font-weight: 400;
   }
 
   /* Styling for page header */
   .lists-header {
-    margin: 20px 0 40px;
-    font-size: 55px;
+    margin: 35px 0 20px;
+    font-size: 34px;
   }
 
   /* Styling for list entry div */
@@ -164,7 +169,7 @@
 
   /* Styling for list entry link */
   .entry-link {
-    height: 85px;
+    height: 70px;
   }
 
   /* Styling for entry img */
@@ -189,55 +194,30 @@
 
   /* Styling for entry remove button */
   .remove-button {
-    width: 50px;
-    height: 50px;
-    margin-left: 25px;
+    width: 40px;
+    height: 40px;
   }
 
   /* Styling for add list element */
   .add-list {
     top: 325px;
-    width: 50%;
-    height: 125px;
-    border: solid 4px rgb(29, 27, 27);
+    width: 22%;
+    height: 100px;
+    border: solid 2.5px rgb(27, 29, 32);
   }
 
   /* Styling for add list input field */
   .add-list-input {
     width: 200px;
     height: 30px;
-    font-size: 23px;
+    font-size: 20px;
   }
 
   /* Styling for add list cancel and confirm buttons */
   .add-list-cancel, .add-list-confirm {
-    height: 32px;
-    width: 90px;
-    font-size: 18px;
+    height: 25px;
+    width: 70px;
+    font-size: 16px;
     font-weight: 500;
-  }
-}
-
-/* Responsive styling for 1000px width */
-@media only screen and (min-width: 1000px) {
-  /* Page wrapper */
-  .lists-wrapper {
-    width: 75%;
-  }
-}
-
-/* Responsive styling for 1200px width */
-@media only screen and (min-width: 1200px) {
-  /* Page wrapper */
-  .lists-wrapper {
-    width: 65%;
-  }
-}
-
-/* Responsive styling for 1400px width */
-@media only screen and (min-width: 1400px) {
-  /* Page wrapper */
-  .lists-wrapper {
-    width: 55%;
   }
 }
