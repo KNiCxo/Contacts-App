@@ -97,7 +97,7 @@ function AddContact(props) {
     
     // Return file of existing picture if contact is being edited
     // Else return the default picture name
-    return props.editingContact ? props.contact.AviPath : 'profile-picture.png';
+    return props.editingContact == props.contact.AviPath ? props.contact.AviPath : 'profile-picture.png';
   }
 
   // Gathers all information from the new/edit contact form and sends a POST/PUT request to the server

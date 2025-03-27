@@ -100,7 +100,7 @@ app.put('/updateContact/', (req, res) => {
   db.updateContact(req.body);
 
   // Delete file based on AviPath
-  if (req.body.AviPath != req.body.OldAviPath) {
+  if (req.body.AviPath != req.body.OldAviPath && req.body.OldAviPath != 'profile-picture.png') {
     fs.unlinkSync(`../client/public/uploads/${req.body.OldAviPath}`)
   }
   res.status(200).send('Contact updated successfully');

@@ -405,7 +405,7 @@ class DbService {
           });
       });
 
-      // Iterates through phone number objects and adds to phone number table
+      // Iterates through email objects and adds to email table
       const emailRows = contactInfo.Emails.map(async (email) => {
         console.log()
         return new Promise((resolve, reject) => {
