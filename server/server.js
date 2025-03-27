@@ -95,9 +95,9 @@ app.post('/uploadPicture', upload.single('file'), (req, res) => {
 });
 
 // PUT request for updating contact information
-app.put('/updateContact/', (req, res) => {
+app.put('/updateContact/', async (req, res) => {
   const db = dbService.getDbServiceInstance();
-  db.updateContact(req.body);
+  await db.updateContact(req.body);
 
   // Delete file based on AviPath
   if (req.body.AviPath != req.body.OldAviPath && req.body.OldAviPath != 'profile-picture.png') {

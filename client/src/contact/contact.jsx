@@ -275,6 +275,7 @@ function Contact() {
 
       if (editingContact == true) {
         setEditingContact(false);
+        setContactDisplayed(true);
       }
 
       setAddContactDisplayed(false);

@@ -97,7 +97,7 @@ function AddContact(props) {
     
     // Return file of existing picture if contact is being edited
     // Else return the default picture name
-    return props.editingContact == props.contact.AviPath ? props.contact.AviPath : 'profile-picture.png';
+    return props.editingContact ? props.contact.AviPath : 'profile-picture.png';
   }
 
   // Gathers all information from the new/edit contact form and sends a POST/PUT request to the server
@@ -124,15 +124,21 @@ function AddContact(props) {
 
       // Loop through elements and gather the phone type and number and push into the phoneNumbers array
       Array.from(phoneElements).forEach(slot => {
-        phoneNumbers.push({
-          Type: slot.children[1].value,
-          Number: slot.children[3].value
-        });
+        // Add number if not blank
+        if (slot.children[3].value != '') {
+          phoneNumbers.push({
+            Type: slot.children[1].value,
+            Number: slot.children[3].value
+          });
+        }
       });
 
       // Loop through elements and add emails to array
       Array.from(emailElements).forEach(slot => {
-        emails.push({Email: slot.children[1].value});
+        // Add email if not blank
+        if (slot.children[1].value != '') {
+          emails.push({Email: slot.children[1].value});
+        }
       });
 
       // If editingContact flag is true, then update contact

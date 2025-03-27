@@ -1,3 +1,5 @@
+import React, {useEffect} from 'react';
+
 import './current-contact.css';
 
 // Displays the current contact form and all of its functionality
@@ -23,6 +25,11 @@ function CurrentContact(props) {
       props.toggleCurrentContact();
     }
   }
+
+  // Rerender component if states change
+  useEffect(() => {
+
+  }, [props.contact, props.updatedPicture, props.contactNumbers, props.contactEmails]);
 
   return(
     <>
